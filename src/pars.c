@@ -13,26 +13,56 @@
 
 #include "rtv1.h"
 
-char	*ft_read(char *file)
+char	*ft_create_str(t_line *lst)
+{
+	char	*str;
+	char	*tmp;
+	t_line	*ltmp;
+
+	str = ft_memalloc(sizeof(char));
+	ltmp = lst;
+	while (lst)
+	{
+		tmp = str;
+		str = ft_strjoin(tmp, lst->content);
+		free(tmp);
+		lst = lst->next;
+	}
+	ft_ldel(&ltmp);
+	return (str);
+}
+
+t_line	*ft_read_file(char *file)
 {
 	int32_t	fd;
 	char	*line;
-	int		count;
+	int8_t	count;
 	t_line	*list;
 
 	count = 0;
-	if((fd = open(file, O_RDONLY) < 0))
+	fd = open(file, O_RDONLY);
+	if (fd <= 0)
 		ft_print_error(BAD_FD);
-	get_next_line(fd, &line);
+	while (get_next_line(fd, &line) > 0)
 	{
-		// if (count == 0)
-		// 	list = ft_lnewline(line);
-		// else
-		// 	ft_lddline(&list, line);
-		// printf("%s \n", line);
-		// count++;
-		//free(line);
-		//return(NULL);
+		if (count == 0)
+			list = ft_lnewline(line);
+		else
+			ft_lddline(&list, line);
+		count++;
+		free(line);
 	}
-	return(NULL);
+	close(fd);
+	return(list);
+}
+
+void	ft_read(char *file, t_rtv1 *rt)
+{
+	t_line	*lst;
+	char	*str;
+
+	lst = ft_read_file(file);
+	str = ft_create_str(lst);
+	rt->camera = ft_pars_cams(str);
+	free(str);
 }

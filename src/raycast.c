@@ -13,6 +13,21 @@
 
 #include "rtv1.h"
 
+void	ft_get_angle_ver(t_rtv1 *rt, t_ray *ray)
+{
+	ray->angle.angle_ver = -atan((HALFHEIGHT - ray->y) / DIST);
+}
+
+void	ft_get_angle_hor(t_rtv1 *rt, t_ray *ray)
+{
+	ray->angle.angle_hor = -atan((HALFWIDTH - ray->x) / DIST);
+}
+
+void	ft_set_end_ray(t_rtv1 *rt, t_ray *ray)
+{
+
+}
+
 void	ft_cast_ray(t_rtv1 *rt)
 {
 
@@ -20,18 +35,20 @@ void	ft_cast_ray(t_rtv1 *rt)
 
 void	ft_start_rt(t_rtv1 *rt)
 {
-	int32_t		x;
-	int32_t		y;
+	t_ray		ray;
 
-	x = 0;
-	while (x < WIDTH)
+	ray.y = 0;
+	while (ray.y < 1)
 	{
-		y = 0;
-		while (y < HEIGHT)
+		ray.x = 0;
+		ft_get_angle_ver(rt, &ray);
+		while (ray.x < WIDTH)
 		{
+			ft_get_angle_hor(rt, &ray);
+			ft_set_end_ray(rt, &ray);
 
-			y++;
+			ray.x++;
 		}
-		x++;
+		ray.y++;
 	}
 }

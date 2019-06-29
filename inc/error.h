@@ -13,10 +13,12 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-#define BAD_USAGE "usage: rtv1 \"file.json\""
+#define BAD_USAGE "Usage: rtv1 \"file.json\""
 
-#define	BAD_ALLOC "error alloc"
+#define	BAD_ALLOC "Error alloc"
 
-#define	BAD_FD "bad file"
+#define	BAD_FD "Bad file"
+
+#define	ERROR_CAM_INIT "Not find camera"
 
 #endif

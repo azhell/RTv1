@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <fcntl.h>
 #include "libft.h"
 #include "error.h"
 
@@ -25,6 +26,7 @@
 #define	HALFWIDTH WIDTH / 2
 #define	HALFHEIGHT HEIGHT / 2
 #define	DIST (double)WIDTH * 1.3
+#define CLIP 0.5f
 #define	X 0
 #define	Y 1
 #define	Z 2
@@ -38,6 +40,20 @@ enum	e_figure
 	cylinder,
 	cone
 };
+
+typedef	struct	s_angle
+{
+	double	angle_hor;
+	double	angle_ver;
+}				t_angle;
+
+typedef	struct	s_antrig
+{
+	double		hor_cos;
+	double		hor_sin;
+	double		ver_cos;
+	double		ver_sin;
+}				t_antrig;
 
 typedef	struct	s_line
 {
@@ -67,13 +83,27 @@ typedef	struct	s_sdl
 
 typedef	struct	s_figure
 {
-	enum e_figure	figure;
-	void		*figure_data;
+	enum e_figure		figure;
+	void				*figure_data;
+	struct	s_figure	*next;
 }				t_figure;
 
+typedef	struct	s_ray
+{
+	int32_t		x;
+	int32_t		y;
+	t_vector	start;
+	t_vector	end;
+	t_vector	vec;
+	t_angle		angle;
+	t_antrig	tr;
+
+}				t_ray;
 
 typedef	struct	s_rtv1
 {
+	t_cam		camera;
+	t_figure	figure;
 	t_sdl		sdl;
 }				t_rtv1;
 
@@ -91,6 +121,8 @@ t_line			*ft_lnewline(char *content);
 
 void			ft_ldel(t_line **list);
 
-char			*ft_read(char *file);
+void			ft_read(char *file, t_rtv1 *rt);
+
+t_cam			ft_pars_cams(char *str);
 
 #endif
