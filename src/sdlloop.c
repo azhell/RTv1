@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sdlloop.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yalytvyn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/27 11:00:15 by yalytvyn          #+#    #+#             */
+/*   Updated: 2019/06/27 11:00:17 by yalytvyn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "rtv1.h"
 
@@ -8,11 +20,12 @@ void	ft_sdlloop(t_rtv1 *rt)
 	run = 1;
 	while (run)
 	{
-		SDL_FillRect(rt->win_surf, NULL, 0x00FFFF);
-		while (SDL_PollEvent(&rt->event))
+		printf("1\n");
+		SDL_FillRect(rt->sdl.win_surf, NULL, 0x00FFFF);
+		while (SDL_PollEvent(&rt->sdl.event))
 		{
 			ft_key(rt, &run);
 		}
-		SDL_UpdateWindowSurface(rt->win);
+		SDL_UpdateWindowSurface(rt->sdl.win);
 	}
 }
