@@ -23,7 +23,7 @@ ifeq ($(UNAME_S),Darwin)
 	SDLFLAGS = -framework SDL2
 	SDL2_P = -rpath @loader_path/frameworks/
 else
-	SDL2 = -lm -lSDL2 -lSDL2_mixer
+	SDL2 +=  -lm -lSDL2
 endif
 
 OPT = -O3 -flto -pipe -Ofast -march=native -mtune=native

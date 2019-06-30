@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <fcntl.h>
 #include "libft.h"
@@ -31,7 +32,8 @@
 #define	Y 1
 #define	Z 2
 
-typedef double	t_vector __attribute__((vector_size(sizeof(double)*3)));
+typedef double t_vector __attribute__ ((vector_size (32)));
+
 
 enum	e_figure
 {
@@ -40,20 +42,6 @@ enum	e_figure
 	cylinder,
 	cone
 };
-
-typedef	struct	s_angle
-{
-	double	angle_hor;
-	double	angle_ver;
-}				t_angle;
-
-typedef	struct	s_antrig
-{
-	double		hor_cos;
-	double		hor_sin;
-	double		ver_cos;
-	double		ver_sin;
-}				t_antrig;
 
 typedef	struct	s_line
 {
@@ -70,6 +58,7 @@ typedef	struct	s_sphere
 typedef	struct	s_cam
 {
 	t_vector		pos;
+	t_vector		direct;
 	t_vector		vector;
 	int32_t			len_ray;
 }					t_cam;
@@ -95,8 +84,6 @@ typedef	struct	s_ray
 	t_vector	start;
 	t_vector	end;
 	t_vector	vec;
-	t_angle		angle;
-	t_antrig	tr;
 
 }				t_ray;
 
@@ -124,5 +111,16 @@ void			ft_ldel(t_line **list);
 void			ft_read(char *file, t_rtv1 *rt);
 
 t_cam			ft_pars_cams(char *str);
+
+void		ft_vec_normailize(t_vector *vec);
+
+t_vector	ft_vec_add_len(t_vector vec, double len);
+
+double		ft_vec_scalar(t_vector vec1, t_vector vec2);
+
+t_vector	ft_vec_cross(t_vector vec1, t_vector vec2);
+
+t_vector	ft_vec_sub(t_vector vec1, t_vector vec2);
+
 
 #endif

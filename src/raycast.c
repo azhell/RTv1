@@ -10,27 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rtv1.h"
 
-void	ft_get_angle_ver(t_rtv1 *rt, t_ray *ray)
+void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
 {
-	ray->angle.angle_ver = -atan((HALFHEIGHT - ray->y) / DIST);
-}
+	double	x;
+	double	y;
 
-void	ft_get_angle_hor(t_rtv1 *rt, t_ray *ray)
-{
-	ray->angle.angle_hor = -atan((HALFWIDTH - ray->x) / DIST);
-}
-
-void	ft_set_end_ray(t_rtv1 *rt, t_ray *ray)
-{
-
-}
-
-void	ft_cast_ray(t_rtv1 *rt)
-{
-
+	x = (WIDTH - ray->x * 2.0) / HEIGHT;
+	y = (HEIGHT - ray->y * 2.0) / WIDTH;
+	ray->vec = ft_vec_sub(rt->camera.direct, rt->camera.pos);
+	ft_normalize_vec(&ray->vec);
 }
 
 void	ft_start_rt(t_rtv1 *rt)
@@ -38,14 +28,11 @@ void	ft_start_rt(t_rtv1 *rt)
 	t_ray		ray;
 
 	ray.y = 0;
-	while (ray.y < 1)
+	while (ray.y < HEIGHT)
 	{
 		ray.x = 0;
-		ft_get_angle_ver(rt, &ray);
 		while (ray.x < WIDTH)
 		{
-			ft_get_angle_hor(rt, &ray);
-			ft_set_end_ray(rt, &ray);
 
 			ray.x++;
 		}

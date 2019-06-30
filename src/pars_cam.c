@@ -12,19 +12,6 @@
 
 #include "rtv1.h"
 
-void	ft_normalize_vec(t_cam *cam)
-{
-	t_vector	vec;
-	float		len;
-	float		inversion;
-
-	vec = cam->vector;
-	len = sqrt(pow(vec[X], 2) + pow(vec[Y], 2) + pow(vec[Z], 2));
-	inversion = 1.0 / len;
-	cam->vector[X] = vec[X] * inversion;
-	cam->vector[Y] = vec[Y] * inversion;
-	cam->vector[Z] = vec[Z] * inversion;
-}
 
 void	ft_set_cam_pos(t_cam *cam, char *str)
 {
@@ -64,7 +51,7 @@ void	ft_set_cam_dir(t_cam *cam, char *str)
 	{
 		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
-			cam->vector[count] = ft_atoi(&str[i]);
+			cam->direct[count] = ft_atoi(&str[i]);
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
@@ -86,8 +73,7 @@ t_cam	ft_pars_cams(char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	ft_set_cam_pos(&camera, cam);
 	ft_set_cam_dir(&camera, cam);
-	ft_normalize_vec(&camera);
-//	printf("%f %f %f \n", camera.pos[X], camera.pos[Y], camera.pos[Z]);
-//	printf("%f %f %f \n", camera.vector[X], camera.vector[Y], camera.vector[Z]);
+	printf("%f %f %f \n", camera.pos[X], camera.pos[Y], camera.pos[Z]);
+	printf("%f %f %f \n", camera.direct[X], camera.direct[Y], camera.direct[Z]);
 	return (camera);
 }
