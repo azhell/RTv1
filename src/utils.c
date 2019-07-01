@@ -19,12 +19,19 @@ void		ft_vec_normailize(t_vector *vec)
 
 	len = sqrt(pow((*vec)[X], 2) + pow((*vec)[Y], 2) + pow((*vec)[Z], 2));
 	inversion = 1.0 / len;
-	(*vec) = (*vec) * inversion;
+	(*vec)[X] = (*vec)[X] * inversion;
+	(*vec)[Y] = (*vec)[Y] * inversion;
+	(*vec)[Z] = (*vec)[Z] * inversion;
 }
 
 t_vector	ft_vec_add_len(t_vector vec, double len)
 {
-	return (vec * len);
+	t_vector	result;
+
+	result[X] = vec[X] * len;
+	result[Y] = vec[Y] * len;
+	result[Z] = vec[Z] * len;
+	return (result);
 }
 
 double		ft_vec_scalar(t_vector vec1, t_vector vec2)

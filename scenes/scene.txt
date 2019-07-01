@@ -1,11 +1,46 @@
 cam
 {
 	pos: 0, 0, 0;
-	direct:5,5,0;
+	direct: 5,5,0;
 }
 
-sphere
+ligth
 {
-	pos: 10, 10, 0;
-	radius: 5;
+	point
+	{
+		pos: 50, 50, 50;
+		color: 100, 100, 100;
+	}
 }
+
+obg
+{
+	sphere
+	{
+		pos: 10, 10, 0;
+		color: 100, 100, 0;
+		radius: 5;
+	
+	}
+
+	plane
+	{
+		pos: 10, 10, 5;
+		color: 100, 200, 300;
+	}
+
+	cone
+	{
+		pos: 5, 5, 0;
+		color: 10, 100, 200;
+		radius: 10;
+	}
+
+	cylinder
+	{
+		pos: 24, 25, 2;
+		color: 59, 79, 90;
+		radius: 15;
+	}
+}
+

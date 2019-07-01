@@ -34,5 +34,5 @@ char	*ft_strstr(const char *s1, const char *s2)
 		}
 		i++;
 	}
-	return (0);
+	return (NULL);
 }

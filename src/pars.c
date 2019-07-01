@@ -59,9 +59,14 @@ void	ft_read(char *file, t_rtv1 *rt)
 {
 	t_line	*lst;
 	char	*str;
+	char	*cam;
+	char	*obj;
 
 	lst = ft_read_file(file);
 	str = ft_create_str(lst);
-	rt->camera = ft_pars_cams(str);
+	cam = ft_strstr(str, "cam");
+	obj = ft_strstr(str, "obj");
+	rt->camera = ft_pars_cams(cam);
+	rt->figure = ft_pars_figure(obj, rt);
 	free(str);
 }

@@ -10,4 +10,131 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rtv1.h"
 
+t_sphere	*ft_parse_sphere(char *str)
+{
+	int32_t		count;
+	int32_t		i;
+	char		*fig;
+	t_sphere	*sphere;
+
+	i = 0;
+	count = 0;
+	sphere = ft_memalloc(sizeof(t_sphere));
+	fig = ft_strstr(str, "pos");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	sphere->pos = ft_get_pos_fig(fig);
+	fig = ft_strstr(str, "color");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	sphere->color = ft_get_rgb_fig(fig);
+	fig = ft_strstr(str, "radius");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	sphere->radius = ft_get_radius_fig(fig);
+	return (sphere);
+}
+
+t_sphere	*ft_get_sphere(char *str)
+{
+	static char		*fig = NULL;
+	t_sphere		*sphere;
+	char			*res;
+	static int8_t	count = 0;
+
+	sphere = NULL;
+	if (count == 0)
+	{
+		fig = str;
+		count++;
+	}
+	res = ft_strstr(fig, "sphere");
+	*fig++;
+	if (res != NULL)
+	{
+		sphere = ft_parse_sphere(fig);
+		return (sphere);		
+	}
+	count++;
+	return (NULL);
+}
+
+// t_cylinder	*ft_get_cylinder(char *str)
+// {
+	
+// }
+
+// t_plane		*ft_get_plane(char *str)
+// {
+	
+// }
+
+// t_cone		*ft_get_cone(char *str)
+// {
+
+// }
+
+t_figure	*ft_get_figure(char *str)
+{
+	t_figure	*lst;
+	t_figure	*save;
+	t_figure	*tmp;
+	char		*fig;
+	t_sphere	*sphere_st;
+	int32_t		count;
+
+	fig = str;
+	lst = NULL;
+	count = 0;
+	while ((sphere_st = ft_get_sphere(str)) != NULL)
+	{
+		if (count == 0)
+		{
+			lst = ft_memalloc(sizeof(t_figure));
+			lst->figure = sphere;
+			lst->figure_data = (void*)sphere_st;
+			save = lst;
+		}
+		else
+		{
+			tmp = ft_memalloc(sizeof(t_figure));
+			tmp->figure = 0;
+			tmp->figure_data = (void*)sphere;
+			lst->next = tmp;
+			lst = lst->next;
+		}
+		count++;
+	}
+	return (save);
+}
+
+t_figure	*ft_pars_figure(char *str, t_rtv1 *rt)
+{
+	char		*figure;
+	char		*res;
+	t_all_fig	*sv;
+	int32_t		i;
+
+	figure	= str;
+	i = 0;
+	sv = ft_memalloc(sizeof(t_all_fig));
+	while (figure[i] != '\0')
+	{
+		if (figure[i] >= 97 && figure[i] <= 122)
+		{
+			if ((res = ft_strnstr(&figure[i], "sphere", 7)))
+			{
+				sv->sphere = ft_parse_sphere(res);
+				if (sv->sphere != NULL)
+				{
+					ft_add_fig_list(sv, rt);
+					sv->sphere = NULL;
+				}
+			}
+		}
+		i++;
+	}
+
+}

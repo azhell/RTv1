@@ -31,9 +31,18 @@
 #define	X 0
 #define	Y 1
 #define	Z 2
+#define	KEK printf("!!!!!!!!!!!!!!!!!!!!!!\n")
+#define	ADR(x) printf("%p \n", x);
 
 typedef double t_vector __attribute__ ((vector_size (32)));
 
+
+typedef	struct	s_rgb
+{
+	int8_t		r;
+	int8_t		g;
+	int8_t		b;
+}				t_rgb;
 
 enum	e_figure
 {
@@ -43,19 +52,40 @@ enum	e_figure
 	cone
 };
 
-typedef	struct	s_line
+typedef	struct		s_line
 {
 	char			*content;
 	struct s_line	*next;
 }					t_line;
 
-typedef	struct	s_sphere
+typedef	struct		s_plane
 {
 	t_vector		pos;
-	int32_t			radius;
-}					t_shere;
+	t_rgb			color;
+}					t_plane;
 
-typedef	struct	s_cam
+typedef	struct		s_cone
+{
+	t_rgb			color;
+	t_vector		pos;
+	int32_t			radius;
+}					t_cone;
+
+typedef	struct		s_cylinder
+{
+	t_vector		pos;
+	t_rgb			color;
+	int32_t			radius;
+}					t_cylinder;
+
+typedef	struct		s_sphere
+{
+	t_vector		pos;
+	t_rgb			color;
+	int32_t			radius;
+}					t_sphere;
+
+typedef	struct		s_cam
 {
 	t_vector		pos;
 	t_vector		direct;
@@ -63,34 +93,50 @@ typedef	struct	s_cam
 	int32_t			len_ray;
 }					t_cam;
 
-typedef	struct	s_sdl
+typedef	struct		s_sdl
 {
-	SDL_Window	*win;
-	SDL_Surface	*win_surf;
-	SDL_Event	event;
-}				t_sdl;
+	SDL_Window		*win;
+	SDL_Surface		*win_surf;
+	SDL_Event		event;
+}					t_sdl;
 
-typedef	struct	s_figure
+typedef	struct		s_figure
 {
 	enum e_figure		figure;
 	void				*figure_data;
 	struct	s_figure	*next;
-}				t_figure;
+}					t_figure;
+
+typedef	struct		s_ligth
+{
+	t_rgb			color;
+	t_vector		pos;
+	struct	s_ligth	*next;
+}					t_ligth;
 
 typedef	struct	s_ray
 {
-	int32_t		x;
-	int32_t		y;
-	t_vector	start;
-	t_vector	end;
-	t_vector	vec;
+	int32_t			x;
+	int32_t			y;
+	t_vector		start;
+	t_vector		end;
+	t_vector		vec;
 
 }				t_ray;
+
+typedef	struct	s_all_fig
+{
+	t_sphere	*sphere;
+	t_cone		*cone;
+	t_cylinder	*cylinder;
+	t_plane		*plane;
+}				t_all_fig;
+
 
 typedef	struct	s_rtv1
 {
 	t_cam		camera;
-	t_figure	figure;
+	t_figure	*figure;
 	t_sdl		sdl;
 }				t_rtv1;
 
@@ -112,15 +158,24 @@ void			ft_read(char *file, t_rtv1 *rt);
 
 t_cam			ft_pars_cams(char *str);
 
-void		ft_vec_normailize(t_vector *vec);
+void			ft_vec_normailize(t_vector *vec);
 
-t_vector	ft_vec_add_len(t_vector vec, double len);
+t_vector		ft_vec_add_len(t_vector vec, double len);
 
-double		ft_vec_scalar(t_vector vec1, t_vector vec2);
+double			ft_vec_scalar(t_vector vec1, t_vector vec2);
 
-t_vector	ft_vec_cross(t_vector vec1, t_vector vec2);
+t_vector		ft_vec_cross(t_vector vec1, t_vector vec2);
 
-t_vector	ft_vec_sub(t_vector vec1, t_vector vec2);
+t_vector		ft_vec_sub(t_vector vec1, t_vector vec2);
 
+t_vector		ft_get_pos_fig(char *str);
+
+t_rgb			ft_get_rgb_fig(char *str);
+
+int32_t			ft_get_radius_fig(char *str);
+
+t_figure		*ft_pars_figure(char *str);
+
+void			ft_vec_normailize(t_vector *vec);
 
 #endif

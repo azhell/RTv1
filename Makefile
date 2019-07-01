@@ -26,8 +26,8 @@ else
 	SDL2 +=  -lm -lSDL2
 endif
 
-OPT = -O3 -flto -pipe -Ofast -march=native -mtune=native
-DB = -g
+OPT = -g
+DB = -g3
 
 INC	= inc/
 

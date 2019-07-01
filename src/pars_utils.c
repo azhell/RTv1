@@ -1,32 +1,82 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_cam.c                                         :+:      :+:    :+:   */
+/*   pars_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yalytvyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/29 17:28:00 by yalytvyn          #+#    #+#             */
-/*   Updated: 2019/06/29 17:28:04 by yalytvyn         ###   ########.fr       */
+/*   Created: 2019/07/01 17:26:16 by yalytvyn          #+#    #+#             */
+/*   Updated: 2019/07/01 17:26:18 by yalytvyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-
-void	ft_set_cam_pos(t_cam *cam, char *str)
+int32_t		ft_get_radius_fig(char *str)
 {
 	int32_t	i;
-	uint8_t	count;
+	int32_t	result;
 
 	i = 1;
-	count = 0;
-	if (!(str = ft_strstr(str, "pos")))
-		ft_print_error(ERROR_CAM_INIT);
+	result = 10;
 	while (str[i] != '\0')
 	{
 		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
-			cam->pos[count] = ft_atoi(&str[i]);
+			result = ft_atoi(&str[i]);
+			return (result);
+		}
+		i++;
+	}
+	return (result);
+}
+
+t_vector	ft_get_pos_fig(char *str)
+{
+	t_vector	pos;
+	int32_t		i;
+	int8_t		count;
+
+	i = 1;
+	count = 0;
+	pos[X] = 0;
+	pos[Y] = 0;
+	pos[Z] = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		{
+			pos[count] = ft_atoi(&str[i]);
+			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
+				i++;
+			i--;
+			count++;
+		}
+		if (count == 3)
+			return (pos);
+		i++;
+	}
+	return (pos);
+}
+
+t_rgb		ft_get_rgb_fig(char *str)
+{
+	t_vector	pos;
+	t_rgb		rgb;
+	int32_t		i;
+	int8_t		count;
+
+	i = 1;
+	count = 0;
+	pos[X] = 0;
+	pos[Y] = 0;
+	pos[Z] = 0;
+	while (str[i] != '\0')
+	{
+		
+		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		{
+			pos[count] = ft_atoi(&str[i]);
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
@@ -36,45 +86,8 @@ void	ft_set_cam_pos(t_cam *cam, char *str)
 			break ;
 		i++;
 	}
-}
-
-void	ft_set_cam_dir(t_cam *cam, char *str)
-{
-	int32_t	i;
-	uint8_t	count;
-
-	i = 1;
-	count = 0;
-	if (!(str = ft_strstr(str, "direct")))
-		ft_print_error(ERROR_CAM_INIT);
-	while (str[i] != '\0')
-	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
-		{
-			cam->direct[count] = ft_atoi(&str[i]);
-			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
-				i++;
-			i--;
-			count++;
-		}
-		if (count == 3)
-			break ;
-		i++;
-	}
-}
-t_cam	ft_pars_cams(char *str)
-{
-	t_cam	camera;
-	char	*cam;
-	char	*obj;
-	int32_t	i;
-
-	i = 0;
-	if (!(cam = ft_strstr(str, "cam")))
-		ft_print_error(ERROR_CAM_INIT);
-	ft_set_cam_pos(&camera, cam);
-	ft_set_cam_dir(&camera, cam);
-	printf("%f %f %f \n", camera.pos[X], camera.pos[Y], camera.pos[Z]);
-	printf("%f %f %f \n", camera.direct[X], camera.direct[Y], camera.direct[Z]);
-	return (camera);
+	rgb.r = pos[0];
+	rgb.g = pos[1];
+	rgb.b = pos[2];
+	return (rgb);
 }

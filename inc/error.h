@@ -21,4 +21,6 @@
 
 #define	ERROR_CAM_INIT "Not find camera"
 
+#define BAD_FIGURE_POS "Bad figure position"
+
 #endif
