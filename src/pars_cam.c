@@ -74,7 +74,5 @@ t_cam	ft_pars_cams(char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	ft_set_cam_pos(&camera, cam);
 	ft_set_cam_dir(&camera, cam);
-	printf("%f %f %f \n", camera.pos[X], camera.pos[Y], camera.pos[Z]);
-	printf("%f %f %f \n", camera.direct[X], camera.direct[Y], camera.direct[Z]);
 	return (camera);
 }

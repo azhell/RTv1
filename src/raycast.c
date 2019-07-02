@@ -33,7 +33,7 @@ void	ft_start_rt(t_rtv1 *rt)
 		ray.x = 0;
 		while (ray.x < WIDTH)
 		{
-			//suka blytb
+			
 			ray.x++;
 		}
 		ray.y++;

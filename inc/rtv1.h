@@ -174,7 +174,7 @@ t_rgb			ft_get_rgb_fig(char *str);
 
 int32_t			ft_get_radius_fig(char *str);
 
-t_figure		*ft_pars_figure(char *str);
+void			ft_pars_figure(char *str, t_rtv1 *rt);
 
 void			ft_vec_normailize(t_vector *vec);
 

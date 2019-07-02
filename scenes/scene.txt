@@ -13,7 +13,7 @@ ligth
 	}
 }
 
-obg
+obj
 {
 	sphere
 	{

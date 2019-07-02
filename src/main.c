@@ -19,14 +19,13 @@ t_rtv1	*ft_mem_main(void)
 
 	if(!(rt = ft_memalloc(sizeof(t_rtv1))))
 		ft_print_error(BAD_ALLOC);
-
 	return (rt);
 }
 
 int		main(int ac, char **av)
 {
-	t_rtv1	*rt;
-	char	*str;
+	t_rtv1		*rt;
+	char		*str;
 	t_sphere	*sphere;
 
 	if (ac != 2)

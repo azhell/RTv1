@@ -40,7 +40,7 @@ t_sphere	*ft_parse_sphere(char *str)
 
 t_sphere	*ft_get_sphere(char *str)
 {
-
+	return (NULL);
 }
 
 // t_cylinder	*ft_get_cylinder(char *str)
@@ -58,7 +58,7 @@ t_sphere	*ft_get_sphere(char *str)
 
 // }
 
-t_figure	*ft_pars_figure(char *str, t_rtv1 *rt)
+void		ft_pars_figure(char *str, t_rtv1 *rt)
 {
 	char		*figure;
 	char		*res;
@@ -76,13 +76,10 @@ t_figure	*ft_pars_figure(char *str, t_rtv1 *rt)
 			{
 				sv->sphere = ft_parse_sphere(res);
 				if (sv->sphere != NULL)
-				{
 					ft_add_fig_list(sv, rt);
-					sv->sphere = NULL;
-				}
 			}
 		}
 		i++;
 	}
-
+	free(sv);
 }

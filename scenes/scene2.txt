@@ -8,6 +8,12 @@ obj
 {
 	sphere
 	{
+		pos: 12, 12, 20;
+		color: 100, 100, 0;
+		radius: 5;
+	}
+	sphere
+	{
 		pos: 10, 10, 0;
 		color: 100, 100, 0;
 		radius: 5;
