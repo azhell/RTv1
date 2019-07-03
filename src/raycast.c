@@ -26,6 +26,7 @@ void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
 void	ft_start_rt(t_rtv1 *rt)
 {
 	t_ray		ray;
+	t_rgb		rgb;
 
 	ray.y = 0;
 	while (ray.y < HEIGHT)
@@ -33,7 +34,13 @@ void	ft_start_rt(t_rtv1 *rt)
 		ray.x = 0;
 		while (ray.x < WIDTH)
 		{
-			
+			float r	= (float)ray.x / (float)WIDTH;
+			float g	= (float)ray.y / (float)HEIGHT;
+			float b = 0.2;
+			rgb.r = (int)(r * 255.9);
+			rgb.g = (int)(g * 255.9);
+			rgb.b = (int)(b * 255.9);
+			ft_put_pixel_rgb(rt, ray.x, ray.y, rgb);
 			ray.x++;
 		}
 		ray.y++;

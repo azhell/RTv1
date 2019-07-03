@@ -20,7 +20,7 @@ void	ft_sdlloop(t_rtv1 *rt)
 	run = 1;
 	while (run)
 	{
-		SDL_FillRect(rt->sdl.win_surf, NULL, 0x00FFFF);
+		ft_start_rt(rt);
 		while (SDL_PollEvent(&rt->sdl.event))
 		{
 			ft_key(rt, &run);

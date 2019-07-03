@@ -37,7 +37,7 @@ t_figure	*ft_lst_fig_new(t_all_fig *sv)
 		figure->figure = sphere;
 		figure->figure_data = sv->sphere;
 	}
-	return (figure); //<- pizdec
+	return (figure); //<- pizdec blyt'''''''''''''' ~!!!!!!!~!!~~!~!~!~!~!~!~
 }
 
 void	ft_add_fig_back(t_figure *main, t_figure *add)

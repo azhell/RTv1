@@ -39,9 +39,9 @@ typedef double t_vector __attribute__ ((vector_size (32)));
 
 typedef	struct	s_rgb
 {
-	int8_t		r;
-	int8_t		g;
-	int8_t		b;
+	Uint8		r;
+	Uint8		g;
+	Uint8		b;
 }				t_rgb;
 
 enum	e_figure
@@ -177,5 +177,9 @@ int32_t			ft_get_radius_fig(char *str);
 void			ft_pars_figure(char *str, t_rtv1 *rt);
 
 void			ft_vec_normailize(t_vector *vec);
+
+void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col);
+
+void			ft_start_rt(t_rtv1 *rt);
 
 #endif
