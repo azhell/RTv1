@@ -11,3 +11,19 @@
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
+{
+	float	a;
+	float	b;
+	float	c;
+	float	result;
+	t_vector d;
+
+	d = rt->camera.pos - pos;
+	a = ft_vec_scalar(ray->ray, ray->ray);
+	b = ft_vec_scalar(d, ray->ray) * 3.0;
+	c = ft_vec_scalar(d, d) - rad * rad;
+	result = (b * b) - (4.0 * a * c);
+	return (result);
+}

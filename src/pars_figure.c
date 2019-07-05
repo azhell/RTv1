@@ -14,13 +14,9 @@
 
 t_sphere	*ft_parse_sphere(char *str)
 {
-	int32_t		count;
-	int32_t		i;
 	char		*fig;
 	t_sphere	*sphere;
 
-	i = 0;
-	count = 0;
 	sphere = ft_memalloc(sizeof(t_sphere));
 	ft_bzero(sphere, sizeof(t_sphere));
 	fig = ft_strstr(str, "pos");
@@ -38,10 +34,10 @@ t_sphere	*ft_parse_sphere(char *str)
 	return (sphere);
 }
 
-t_sphere	*ft_get_sphere(char *str)
-{
-	return (NULL);
-}
+// t_sphere	*ft_get_sphere(char *str)
+// {
+// 	return (NULL);
+// }
 
 // t_cylinder	*ft_get_cylinder(char *str)
 // {

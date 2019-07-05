@@ -18,9 +18,10 @@ void	ft_sdlloop(t_rtv1 *rt)
 	int8_t	run;
 
 	run = 1;
+	ft_start_rt(rt);
 	while (run)
 	{
-		ft_start_rt(rt);
+
 		while (SDL_PollEvent(&rt->sdl.event))
 		{
 			ft_key(rt, &run);

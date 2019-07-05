@@ -25,13 +25,12 @@ t_rtv1	*ft_mem_main(void)
 int		main(int ac, char **av)
 {
 	t_rtv1		*rt;
-	char		*str;
-	t_sphere	*sphere;
 
-///	if (ac != 2)
-	//	ft_print_error(BAD_USAGE);
+	if (ac != 2)
+		ft_print_error(BAD_USAGE);
 	rt = ft_mem_main();
 	ft_read(av[1], rt);
+	ft_init(rt);
 	ft_sdl_init(rt);
 	ft_sdlloop(rt);
 	SDL_Quit();

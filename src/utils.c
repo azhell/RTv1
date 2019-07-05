@@ -17,30 +17,31 @@ void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col)
 	int32_t		*target_pixel;
 	int32_t		color;
 
-	if (x < 0 || x > WIDTH - 1 || y < 0 || y > HEIGHT - 1)
+	if (x < 0 || x > WH - 1 || y < 0 || y > HT - 1)
 		return ;
 	target_pixel = rt->sdl.win_surf->pixels + y *
 			rt->sdl.win_surf->pitch + x *
 			rt->sdl.win_surf->format->BytesPerPixel;
 
-	color = SDL_MapRGB(rt->sdl.win_surf->format, col.r, col.g, col.b);
+	color = (col.r << 16) | (col.g << 8) | col.b;
 	*target_pixel = -color;
 }
 
 
-void		ft_vec_normailize(t_vector *vec)
+t_vector		ft_vec_normailize(t_vector vec)
 {
 	float		len;
 	float		inversion;
 
-	len = sqrt(pow((*vec)[X], 2) + pow((*vec)[Y], 2) + pow((*vec)[Z], 2));
+	len = sqrt(pow(vec[X], 2) + pow(vec[Y], 2) + pow(vec[Z], 2));
 	inversion = 1.0 / len;
-	(*vec)[X] = (*vec)[X] * inversion;
-	(*vec)[Y] = (*vec)[Y] * inversion;
-	(*vec)[Z] = (*vec)[Z] * inversion;
+	vec[X] = vec[X] * inversion;
+	vec[Y] = vec[Y] * inversion;
+	vec[Z] = vec[Z] * inversion;
+	return (vec);
 }
 
-t_vector	ft_vec_add_len(t_vector vec, double len)
+t_vector	ft_vec_scale(t_vector vec, double len)
 {
 	t_vector	result;
 

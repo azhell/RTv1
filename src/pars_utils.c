@@ -74,7 +74,7 @@ t_rgb		ft_get_rgb_fig(char *str)
 	pos[Z] = 0;
 	while (str[i] != '\0')
 	{
-		
+
 		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
 			pos[count] = ft_atoi(&str[i]);

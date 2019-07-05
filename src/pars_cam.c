@@ -66,10 +66,7 @@ t_cam	ft_pars_cams(char *str)
 {
 	t_cam	camera;
 	char	*cam;
-	char	*obj;
-	int32_t	i;
 
-	i = 0;
 	if (!(cam = ft_strstr(str, "cam")))
 		ft_print_error(ERROR_CAM_INIT);
 	ft_set_cam_pos(&camera, cam);
