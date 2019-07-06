@@ -68,21 +68,30 @@ typedef	struct		s_cone
 {
 	t_rgb			color;
 	t_vector		pos;
-	int32_t			radius;
+	float			radius;
 }					t_cone;
 
 typedef	struct		s_cylinder
 {
 	t_vector		pos;
 	t_rgb			color;
-	int32_t			radius;
+	float_t			radius;
 }					t_cylinder;
+
+typedef	struct		s_inter
+{
+	double			a;
+	double			b;
+	double			c;
+	double			d;
+}					t_inter;
+
 
 typedef	struct		s_sphere
 {
 	t_vector		pos;
 	t_rgb			color;
-	int32_t			radius;
+	float_t			radius;
 }					t_sphere;
 
 typedef	struct		s_cam
@@ -116,31 +125,41 @@ typedef	struct		s_ligth
 
 typedef	struct	s_ray
 {
+	float_t			u;
+	float_t			v;
 	int32_t			x;
 	int32_t			y;
-	t_vector		start;
-	t_vector		end;
 	t_vector		vec;
 
 }				t_ray;
 
-typedef	struct	s_all_fig
+typedef	struct		s_all_fig
 {
-	t_sphere	*sphere;
-	t_cone		*cone;
-	t_cylinder	*cylinder;
-	t_plane		*plane;
-}				t_all_fig;
+	t_sphere		*sphere;
+	t_cone			*cone;
+	t_cylinder		*cylinder;
+	t_plane			*plane;
+}					t_all_fig;
+
+typedef	struct		s_data_ray
+{
+	t_vector		horizontal;
+	t_vector		vertical;
+	t_vector		left_corn;
+}					t_data_ray;
 
 
-typedef	struct	s_rtv1
+typedef	struct		s_rtv1
 {
-	t_cam		camera;
-	t_figure	*figure;
-	t_sdl		sdl;
-}				t_rtv1;
+	t_cam			camera;
+	t_data_ray		data;
+	t_figure		*figure;
+	t_sdl			sdl;
+}					t_rtv1;
 
 void			ft_sdl_init(t_rtv1 *rt);
+
+void			ft_init(t_rtv1 *rt);
 
 void			ft_sdlloop(t_rtv1 *rt);
 
@@ -160,7 +179,7 @@ t_cam			ft_pars_cams(char *str);
 
 void			ft_vec_normailize(t_vector *vec);
 
-t_vector		ft_vec_add_len(t_vector vec, double len);
+t_vector		ft_vec_add_scale(t_vector vec, double len);
 
 double			ft_vec_scalar(t_vector vec1, t_vector vec2);
 
@@ -181,5 +200,9 @@ void			ft_vec_normailize(t_vector *vec);
 void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col);
 
 void			ft_start_rt(t_rtv1 *rt);
+
+void			ft_add_fig_list(t_all_fig *sv, t_rtv1 *rt);
+
+double			ft_inter_sphere(t_vector pos, float radius, t_ray *ray, t_rtv1 *rt);
 
 #endif

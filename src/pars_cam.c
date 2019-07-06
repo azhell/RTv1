@@ -12,11 +12,10 @@
 
 #include "rtv1.h"
 
-
-void	ft_set_cam_pos(t_cam *cam, char *str)
+void ft_set_cam_pos(t_cam *cam, char *str)
 {
-	int32_t	i;
-	uint8_t	count;
+	int32_t i;
+	uint8_t count;
 
 	i = 1;
 	count = 0;
@@ -33,15 +32,15 @@ void	ft_set_cam_pos(t_cam *cam, char *str)
 			count++;
 		}
 		if (count == 3)
-			break ;
+			break;
 		i++;
 	}
 }
 
-void	ft_set_cam_dir(t_cam *cam, char *str)
+void ft_set_cam_dir(t_cam *cam, char *str)
 {
-	int32_t	i;
-	uint8_t	count;
+	int32_t i;
+	uint8_t count;
 
 	i = 1;
 	count = 0;
@@ -58,16 +57,15 @@ void	ft_set_cam_dir(t_cam *cam, char *str)
 			count++;
 		}
 		if (count == 3)
-			break ;
+			break;
 		i++;
 	}
 }
-t_cam	ft_pars_cams(char *str)
+t_cam ft_pars_cams(char *str)
 {
-	t_cam	camera;
-	char	*cam;
-	char	*obj;
-	int32_t	i;
+	t_cam camera;
+	char *cam;
+	int32_t i;
 
 	i = 0;
 	if (!(cam = ft_strstr(str, "cam")))

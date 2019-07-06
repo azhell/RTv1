@@ -38,10 +38,10 @@ t_sphere	*ft_parse_sphere(char *str)
 	return (sphere);
 }
 
-t_sphere	*ft_get_sphere(char *str)
-{
-	return (NULL);
-}
+// t_sphere	*ft_get_sphere(char *str)
+// {
+// 	return (NULL);
+// }
 
 // t_cylinder	*ft_get_cylinder(char *str)
 // {

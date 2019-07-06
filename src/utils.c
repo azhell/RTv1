@@ -40,7 +40,7 @@ void		ft_vec_normailize(t_vector *vec)
 	(*vec)[Z] = (*vec)[Z] * inversion;
 }
 
-t_vector	ft_vec_add_len(t_vector vec, double len)
+t_vector	ft_vec_add_scale(t_vector vec, double len)
 {
 	t_vector	result;
 

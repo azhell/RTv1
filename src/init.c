@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sdl_init.c                                         :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yalytvyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/27 10:59:49 by yalytvyn          #+#    #+#             */
-/*   Updated: 2019/06/27 10:59:50 by yalytvyn         ###   ########.fr       */
+/*   Created: 2019/07/03 17:01:56 by yalytvyn          #+#    #+#             */
+/*   Updated: 2019/07/03 17:01:58 by yalytvyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void ft_sdl_init(t_rtv1 *rt)
+void	ft_init(t_rtv1 *rt)
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	rt->sdl.win = SDL_CreateWindow(
-		"RTv1",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		WIDTH,
-		HEIGHT,
-		SDL_WINDOW_ALLOW_HIGHDPI);
-	rt->sdl.win_surf = SDL_GetWindowSurface(rt->sdl.win);
-	if (rt->sdl.win_surf == NULL)
-		exit(-1);
+	rt->data.horizontal = (t_vector){4.0, 0.0, 0.0};
+	rt->data.vertical = (t_vector){0.0, 2.0, 0.0};
+	rt->data.left_corn = (t_vector){-2.0, -1.0, -1.0};
+	rt->camera.vector = rt->camera.direct - rt->camera.pos;
+	ft_vec_normailize(&rt->camera.vector);
+	rt->data.left_corn = rt->camera.pos + rt->camera.vector;
+
+//	printf("%f %f %f \n", rt->data.left_corn[X], rt->data.left_corn[Y], rt->data.left_corn[Z]);
 }
