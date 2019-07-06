@@ -13,18 +13,21 @@
 
 #include "rtv1.h"
 
+void	ft_new_render(t_rtv1 *rt)
+{
+	ft_start_rt(rt);
+}
+
 void	ft_sdlloop(t_rtv1 *rt)
 {
 	int8_t	run;
 
 	run = 1;
+	ft_new_render(rt);
 	while (run)
 	{
-		ft_start_rt(rt);
 		while (SDL_PollEvent(&rt->sdl.event))
-		{
 			ft_key(rt, &run);
-		}
 		SDL_UpdateWindowSurface(rt->sdl.win);
 	}
 }

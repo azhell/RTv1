@@ -12,19 +12,18 @@
 
 #include "rtv1.h"
 
-void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col)
+void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col)
 {
 	int32_t		*target_pixel;
 	int32_t		color;
 
-	if (x < 0 || x > WIDTH - 1 || y < 0 || y > HEIGHT - 1)
+	if (x < 0 || x > WH - 1 || y < 0 || y > HT - 1)
 		return ;
 	target_pixel = rt->sdl.win_surf->pixels + y *
 			rt->sdl.win_surf->pitch + x *
 			rt->sdl.win_surf->format->BytesPerPixel;
-
-	color = SDL_MapRGB(rt->sdl.win_surf->format, col.r, col.g, col.b);
-	*target_pixel = -color;
+	color = ((col->r & 0xff) << 16) + ((col->g & 0xff) << 8) + (col->b & 0xff);
+	*target_pixel = color;
 }
 
 

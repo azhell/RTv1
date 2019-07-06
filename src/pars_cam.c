@@ -23,9 +23,10 @@ void ft_set_cam_pos(t_cam *cam, char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			cam->pos[count] = ft_atoi(&str[i]);
+			i++;
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
@@ -48,7 +49,7 @@ void ft_set_cam_dir(t_cam *cam, char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			cam->direct[count] = ft_atoi(&str[i]);
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)

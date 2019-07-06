@@ -22,8 +22,8 @@
 #include "libft.h"
 #include "error.h"
 
-#define WIDTH 1280
-#define HEIGHT 900
+#define WH 500
+#define HT 500
 #define	HALFWIDTH WIDTH / 2
 #define	HALFHEIGHT HEIGHT / 2
 #define	DIST (double)WIDTH * 1.3
@@ -68,7 +68,7 @@ typedef	struct		s_cone
 {
 	t_rgb			color;
 	t_vector		pos;
-	float			radius;
+	float_t			radius;
 }					t_cone;
 
 typedef	struct		s_cylinder
@@ -197,7 +197,7 @@ void			ft_pars_figure(char *str, t_rtv1 *rt);
 
 void			ft_vec_normailize(t_vector *vec);
 
-void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col);
+void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col);
 
 void			ft_start_rt(t_rtv1 *rt);
 

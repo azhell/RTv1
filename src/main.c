@@ -30,10 +30,9 @@ int main(int ac, char **av)
 	rt = ft_mem_main();
 	ft_read(av[1], rt);
 	ft_init(rt);
-	ft_start_rt(rt);
-	// ft_sdl_init(rt);
-	// ft_sdlloop(rt);
-	// SDL_Quit();
-	//system("leaks RTv1");
+	ft_sdl_init(rt);
+	ft_sdlloop(rt);
+	SDL_Quit();
+	system("leaks RTv1");
 	return (0);
 }

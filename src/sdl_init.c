@@ -19,8 +19,8 @@ void ft_sdl_init(t_rtv1 *rt)
 		"RTv1",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		WIDTH,
-		HEIGHT,
+		WH,
+		HT,
 		SDL_WINDOW_ALLOW_HIGHDPI);
 	rt->sdl.win_surf = SDL_GetWindowSurface(rt->sdl.win);
 	if (rt->sdl.win_surf == NULL)

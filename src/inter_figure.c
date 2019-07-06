@@ -22,6 +22,6 @@ double		ft_inter_sphere(t_vector pos, float radius, t_ray *ray, t_rtv1 *rt)
 	sphere.a = ft_vec_scalar(ray->vec, ray->vec);
 	sphere.b = ft_vec_scalar(vec_p, ray->vec) * 2.0;
 	sphere.c = ft_vec_scalar(vec_p, vec_p) - radius * radius; 
-	result = (sphere.b * sphere.b) - (4 * sphere.a * sphere.c);
+	result = (sphere.b * sphere.b) - (4.0 * sphere.a * sphere.c);
 	return	(result);
 }

@@ -23,8 +23,7 @@ double	ft_check_figure(t_rtv1 *rt, t_ray *ray, t_figure *figure)
 	{
 		fig->sphere = figure->figure_data;
 		result = ft_inter_sphere(fig->sphere->pos, fig->sphere->radius, ray, rt);
-		//free(fig->sphere);
-		return (result);
+		free(fig);
 	}
 	else if (figure->figure == cylinder)
 	{
@@ -63,23 +62,35 @@ void	ft_start_rt(t_rtv1 *rt)
 	double		res;
 
 	ray.y = 0;
-	rgb.r = 30;
-	rgb.g = 30;
-	rgb.r = 30;
-	while (ray.y < HEIGHT)
+	rgb.r = 50;
+	rgb.g = 50;
+	rgb.r = 50;
+	while (ray.y < HT)
 	{
 		ray.x = 0;
-		while (ray.x < WIDTH)
+		while (ray.x < WH)
 		{
-			ray.u	= (float)ray.x / (float)WIDTH;
-			ray.v	= (float)ray.y / (float)HEIGHT;
+			ray.u	= (float)ray.x / (float)WH;
+			ray.v	= (float)ray.y / (float)HT;
 			
 			ray.vec = rt->data.left_corn + ft_vec_add_scale(rt->data.horizontal, ray.u)
 			+ ft_vec_add_scale(rt->data.vertical, ray.v);
 			res = ft_start_figure(rt, &ray);
 			if (res >= 0)
-				printf("%f %f %f %d %d\n", ray.vec[X], ray.vec[Y], ray.vec[Z], ray.y, ray.x);
-			//ft_put_pixel_rgb(rt, ray.x, ray.y, rgb);
+			{
+				rgb.r = 200;
+				rgb.g = 0;
+				rgb.b = 0;
+			}
+			else
+			{
+				rgb.r = 50;
+				rgb.g = 50;
+				rgb.b = 50;
+			}
+				
+			//printf("%f %f %f %d %d\n", ray.vec[X], ray.vec[Y], ray.vec[Z], ray.y, ray.x);
+			ft_put_pixel_rgb(rt, ray.x, ray.y, &rgb);
 			ray.x++;
 		}
 		ray.y++;
