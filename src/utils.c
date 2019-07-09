@@ -22,18 +22,13 @@ void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col)
 	target_pixel = rt->sdl.win_surf->pixels + y *
 			rt->sdl.win_surf->pitch + x *
 			rt->sdl.win_surf->format->BytesPerPixel;
-<<<<<<< HEAD
 
-	color = (col.r << 16) | (col.g << 8) | col.b;
+	color = (col->r << 16) | (col->g << 8) | col->b;
 	*target_pixel = -color;
-=======
-	color = ((col->r & 0xff) << 16) + ((col->g & 0xff) << 8) + (col->b & 0xff);
-	*target_pixel = color;
->>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 }
 
 
-t_vector		ft_vec_normailize(t_vector vec)
+t_vector		ft_vec_normalize(t_vector vec)
 {
 	float		len;
 	float		inversion;
@@ -46,11 +41,7 @@ t_vector		ft_vec_normailize(t_vector vec)
 	return (vec);
 }
 
-<<<<<<< HEAD
-t_vector	ft_vec_scale(t_vector vec, double len)
-=======
 t_vector	ft_vec_add_scale(t_vector vec, double len)
->>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 {
 	t_vector	result;
 

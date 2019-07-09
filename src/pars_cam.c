@@ -64,14 +64,8 @@ void ft_set_cam_dir(t_cam *cam, char *str)
 }
 t_cam ft_pars_cams(char *str)
 {
-<<<<<<< HEAD
 	t_cam	camera;
 	char	*cam;
-=======
-	t_cam camera;
-	char *cam;
-	int32_t i;
->>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 	if (!(cam = ft_strstr(str, "cam")))
 		ft_print_error(ERROR_CAM_INIT);

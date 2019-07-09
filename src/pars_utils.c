@@ -47,7 +47,7 @@ t_vector	ft_get_pos_fig(char *str)
 		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
 			pos[count] = ft_atoi(&str[i]);
-		//	printf("%d %f\n", ft_atoi(&str[i]), pos[count]);
+			printf("%d %f\n", ft_atoi(&str[i]), pos[count]);
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
