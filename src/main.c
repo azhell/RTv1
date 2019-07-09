@@ -10,21 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rtv1.h"
 
-t_rtv1	*ft_mem_main(void)
+t_rtv1 *ft_mem_main(void)
 {
-	t_rtv1	*rt;
+	t_rtv1 *rt;
 
-	if(!(rt = ft_memalloc(sizeof(t_rtv1))))
+	if (!(rt = ft_memalloc(sizeof(t_rtv1))))
 		ft_print_error(BAD_ALLOC);
 	return (rt);
 }
 
-int		main(int ac, char **av)
+int main(int ac, char **av)
 {
+<<<<<<< HEAD
 	t_rtv1		*rt;
+=======
+	t_rtv1 *rt;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 	if (ac != 2)
 		ft_print_error(BAD_USAGE);

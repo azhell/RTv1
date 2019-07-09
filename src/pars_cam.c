@@ -12,11 +12,10 @@
 
 #include "rtv1.h"
 
-
-void	ft_set_cam_pos(t_cam *cam, char *str)
+void ft_set_cam_pos(t_cam *cam, char *str)
 {
-	int32_t	i;
-	uint8_t	count;
+	int32_t i;
+	uint8_t count;
 
 	i = 1;
 	count = 0;
@@ -24,24 +23,25 @@ void	ft_set_cam_pos(t_cam *cam, char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			cam->pos[count] = ft_atoi(&str[i]);
+			i++;
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
 			count++;
 		}
 		if (count == 3)
-			break ;
+			break;
 		i++;
 	}
 }
 
-void	ft_set_cam_dir(t_cam *cam, char *str)
+void ft_set_cam_dir(t_cam *cam, char *str)
 {
-	int32_t	i;
-	uint8_t	count;
+	int32_t i;
+	uint8_t count;
 
 	i = 1;
 	count = 0;
@@ -49,7 +49,7 @@ void	ft_set_cam_dir(t_cam *cam, char *str)
 		ft_print_error(ERROR_CAM_INIT);
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			cam->direct[count] = ft_atoi(&str[i]);
 			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
@@ -58,14 +58,20 @@ void	ft_set_cam_dir(t_cam *cam, char *str)
 			count++;
 		}
 		if (count == 3)
-			break ;
+			break;
 		i++;
 	}
 }
-t_cam	ft_pars_cams(char *str)
+t_cam ft_pars_cams(char *str)
 {
+<<<<<<< HEAD
 	t_cam	camera;
 	char	*cam;
+=======
+	t_cam camera;
+	char *cam;
+	int32_t i;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 	if (!(cam = ft_strstr(str, "cam")))
 		ft_print_error(ERROR_CAM_INIT);

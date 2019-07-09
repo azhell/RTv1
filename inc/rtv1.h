@@ -22,8 +22,13 @@
 #include "libft.h"
 #include "error.h"
 
+<<<<<<< HEAD
 #define WH 1280
 #define HT 900
+=======
+#define WH 500
+#define HT 500
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 #define	HALFWIDTH WIDTH / 2
 #define	HALFHEIGHT HEIGHT / 2
 #define	DIST (double)WIDTH * 1.3
@@ -68,21 +73,42 @@ typedef	struct		s_cone
 {
 	t_rgb			color;
 	t_vector		pos;
+<<<<<<< HEAD
 	double			radius;
+=======
+	float_t			radius;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 }					t_cone;
 
 typedef	struct		s_cylinder
 {
 	t_vector		pos;
 	t_rgb			color;
+<<<<<<< HEAD
 	double			radius;
+=======
+	float_t			radius;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 }					t_cylinder;
+
+typedef	struct		s_inter
+{
+	double			a;
+	double			b;
+	double			c;
+	double			d;
+}					t_inter;
+
 
 typedef	struct		s_sphere
 {
 	t_vector		pos;
 	t_rgb			color;
+<<<<<<< HEAD
 	double			radius;
+=======
+	float_t			radius;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 }					t_sphere;
 
 typedef	struct		s_cam
@@ -116,32 +142,63 @@ typedef	struct		s_ligth
 
 typedef	struct	s_ray
 {
+	float_t			u;
+	float_t			v;
 	int32_t			x;
 	int32_t			y;
+<<<<<<< HEAD
 	t_vector		color;
 	t_vector		ray;
+=======
+	t_vector		vec;
+
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 }				t_ray;
 
-typedef	struct	s_all_fig
+typedef	struct		s_all_fig
 {
 	t_sphere		*sphere;
 	t_cone			*cone;
 	t_cylinder		*cylinder;
 	t_plane			*plane;
+}					t_all_fig;
+
+typedef	struct		s_data_ray
+{
+<<<<<<< HEAD
+	t_sphere		*sphere;
+	t_cone			*cone;
+	t_cylinder		*cylinder;
+	t_plane			*plane;
 }				t_all_fig;
+=======
+	t_vector		horizontal;
+	t_vector		vertical;
+	t_vector		left_corn;
+}					t_data_ray;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 
-typedef	struct	s_rtv1
+typedef	struct		s_rtv1
 {
 	t_cam			camera;
+<<<<<<< HEAD
 	t_figure		*figure;
 	t_sdl			sdl;
 	t_vector		horizontal;
 	t_vector		vertical;
 	t_vector		left_corner;
 }				t_rtv1;
+=======
+	t_data_ray		data;
+	t_figure		*figure;
+	t_sdl			sdl;
+}					t_rtv1;
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 void			ft_sdl_init(t_rtv1 *rt);
+
+void			ft_init(t_rtv1 *rt);
 
 void			ft_sdlloop(t_rtv1 *rt);
 
@@ -161,7 +218,11 @@ t_cam			ft_pars_cams(char *str);
 
 t_vector		ft_vec_normailize(t_vector vec);
 
+<<<<<<< HEAD
 t_vector		ft_vec_scale(t_vector vec, double len);
+=======
+t_vector		ft_vec_add_scale(t_vector vec, double len);
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 
 double			ft_vec_scalar(t_vector vec1, t_vector vec2);
 
@@ -177,6 +238,7 @@ int32_t			ft_get_radius_fig(char *str);
 
 void			ft_pars_figure(char *str, t_rtv1 *rt);
 
+<<<<<<< HEAD
 void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb col);
 
 void			ft_start_rt(t_rtv1 *rt);
@@ -189,4 +251,16 @@ t_figure		*ft_lst_fig_new(t_all_fig *sv);
 
 void			ft_add_fig_list(t_all_fig *sv, t_rtv1 *rt);
 
+=======
+void			ft_vec_normailize(t_vector *vec);
+
+void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col);
+
+void			ft_start_rt(t_rtv1 *rt);
+
+void			ft_add_fig_list(t_all_fig *sv, t_rtv1 *rt);
+
+double			ft_inter_sphere(t_vector pos, float radius, t_ray *ray, t_rtv1 *rt);
+
+>>>>>>> 6320ac8dc155134b6b7dff6525aec653e8045447
 #endif

@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rtv1.h"
 
-void	ft_sdl_init(t_rtv1 *rt)
+void ft_sdl_init(t_rtv1 *rt)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	rt->sdl.win = SDL_CreateWindow(

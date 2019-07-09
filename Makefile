@@ -42,12 +42,12 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(SDL2)
 	make -C libft/
-	gcc -Wall -Wextra $(OPT) $(SRC) -o $(NAME) $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2_P) $(SDLFLAGS) $(SDL2)
+	gcc -Wall -Wextra -Wno-psabi $(OPT) $(SRC) -o $(NAME) $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2_P) $(SDLFLAGS) $(SDL2)
 	printf '\033[32m[ ✔ ] %s\n\033[0m' "Create RTv1"
 
 obj/%.o: src/%.c
 	mkdir -p obj
-	gcc -Wall -Wextra -c  $(OPT)  $< -o $@ $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2)
+	gcc -Wall -Wextra -Wno-psabi -c  $(OPT)  $< -o $@ $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2)
 	printf '\033[0m[ ✔ ] %s\n\033[0m' "$<"
 
 db: $(NAME)
