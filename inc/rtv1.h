@@ -89,7 +89,7 @@ typedef	struct		s_inter
 	double			a;
 	double			b;
 	double			c;
-	double			d;
+	t_vector		d;
 }					t_inter;
 
 typedef	struct		s_color
@@ -214,7 +214,7 @@ void			ft_start_rt(t_rtv1 *rt);
 
 void			ft_init(t_rtv1 *rt);
 
-float			ft_inter_sphere(double r, t_vector p, t_rtv1 *rt, t_ray *r);
+float			ft_inter_sphere(double rad, t_vector p, t_rtv1 *rt, t_ray *r);
 
 t_figure		*ft_lst_fig_new(t_all_fig *sv);
 
