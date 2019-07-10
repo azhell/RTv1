@@ -10,13 +10,6 @@ light
 	color: 245, 66, 126;
 }
 
-light
-{
-	pos: 5, 0, 0;
-	color: 245, 66, 126;
-}
-
-
 obj
 {
 	sphere

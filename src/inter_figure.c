@@ -29,6 +29,9 @@ float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 		ray->normal.t = t;
 		ray->normal.p = rt->camera.pos + ft_vec_add_scale(ray->ray, t);
 		ray->normal.normal = (ray->normal.p - pos) / (t_vector) {rad, rad, rad};
+		ray->normal.normal = ft_vec_normalize(ray->normal.normal);
+
+		res = ft_vec_scalar();
 	}
 	return (result);
 }

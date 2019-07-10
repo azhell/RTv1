@@ -144,6 +144,7 @@ typedef	struct	s_ray
 	t_rgb			color;
 	t_vector		ray;
 	t_normal		normal;
+	float_t			res;
 }				t_ray;
 
 typedef	struct		s_all_fig

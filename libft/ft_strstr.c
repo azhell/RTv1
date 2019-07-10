@@ -12,24 +12,24 @@
 
 #include "libft.h"
 
-char	*ft_strstr(const char *s1, const char *s2)
+char *ft_strstr(const char *s1, const char *s2)
 {
-	int		i;
-	int		j;
-	int		buf;
+	int	i;
+	int	j;
+	int	buf;
 
 	i = 0;
 	buf = 0;
 	buf = ft_strlen(s2);
 	if (buf == 0)
-		return ((char*)s1);
+		return ((char *)s1);
 	while (s1[i] != '\0')
 	{
 		j = 0;
 		while (s1[i + j] == s2[j])
 		{
 			if (j == buf - 1)
-				return ((char*)s1 + i);
+				return ((char *)s1 + i);
 			j++;
 		}
 		i++;
