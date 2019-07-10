@@ -61,6 +61,7 @@ void	ft_read(char *file, t_rtv1 *rt)
 	char	*str;
 	char	*cam;
 	char	*obj;
+	char	*light;
 
 	lst = ft_read_file(file);
 	str = ft_create_str(lst);
@@ -70,6 +71,10 @@ void	ft_read(char *file, t_rtv1 *rt)
 	obj = ft_strstr(str, "obj");
 	if (obj == NULL)
 		ft_print_error(NOT_FOUND_FIGURE);
+	light = ft_strstr(str, "light");
+	if (light == NULL)
+		ft_print_error(NOL_FOUND_LIGHT);
+	ft_pars_light(light, rt);
 	rt->camera = ft_pars_cams(cam);
 	ft_pars_figure(obj, rt);
 	free(str);

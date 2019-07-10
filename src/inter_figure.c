@@ -14,16 +14,20 @@
 
 float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 {
-	double	a;
-	double	b;
-	double	c;
+	t_inter	inter;
 	double	result;
+	double	t;
 	t_vector d;
 
-	d = rt->camera.pos - pos;
-	a = ft_vec_scalar(ray->ray, ray->ray);
-	b = ft_vec_scalar(d, ray->ray) * 2.0;
-	c = ft_vec_scalar(d, d) - rad * rad;
-	result = (b * b) - (4.0 * a * c);
+	inter.d = rt->camera.pos - pos;
+	inter.a = ft_vec_scalar(ray->ray, ray->ray);
+	inter.b = ft_vec_scalar(inter.d, ray->ray) * 2.0;
+	inter.c = ft_vec_scalar(inter.d, inter.d) - rad * rad;
+	result = (inter.b * inter.b) - (4.0 * inter.a * inter.c);
+	t = (-inter.b - sqrt(inter.b * inter.b - inter.a * inter.c) / inter.a;
+	if (result > 0)
+	{
+		
+	}
 	return (result);
 }

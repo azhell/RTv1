@@ -4,12 +4,37 @@ cam
 	direct: 5,5,0;
 }
 
+light
+{
+	pos: 5, 0, 0;
+	color: 245, 66, 126;
+}
+
+light
+{
+	pos: 5, 0, 0;
+	color: 245, 66, 126;
+}
+
+
 obj
 {
 	sphere
 	{
-		pos: 0, 0, 1;
+		pos: 10, 5, 0;
 		color: 120, 120, 0;
-		radius: 0;
+		radius: 1;
+	}
+	sphere
+	{
+		pos: 10, 9, 0;
+		color: 197, 40, 60;
+		radius: 2;
+	}
+	sphere
+	{
+		pos: 7, 13, 0;
+		color: 101, 0, 100;
+		radius: 3;
 	}
 }
