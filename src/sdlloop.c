@@ -24,10 +24,10 @@ void	ft_sdlloop(t_rtv1 *rt)
 
 	run = 1;
 	ft_new_render(rt);
-	while (run)
-	{
-		while (SDL_PollEvent(&rt->sdl.event))
-			ft_key(rt, &run);
-		SDL_UpdateWindowSurface(rt->sdl.win);
-	}
+	// while (run)
+	// {
+	// 	while (SDL_PollEvent(&rt->sdl.event))
+	// 		ft_key(rt, &run);
+	// 	SDL_UpdateWindowSurface(rt->sdl.win);
+	// }
 }

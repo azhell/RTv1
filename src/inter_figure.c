@@ -16,7 +16,9 @@ float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 {
 	t_inter	inter;
 	double	result;
+	double	res;
 	double	t;
+	t_rgb	col;
 
 	inter.d = rt->camera.pos - pos;
 	inter.a = ft_vec_scalar(ray->ray, ray->ray);
@@ -26,12 +28,18 @@ float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 	t = (-inter.b - sqrt(inter.b * inter.b - inter.a * inter.c)) / inter.a;
 	if (result > 0)
 	{
+		
 		ray->normal.t = t;
 		ray->normal.p = rt->camera.pos + ft_vec_add_scale(ray->ray, t);
-		ray->normal.normal = (ray->normal.p - pos) / (t_vector) {rad, rad, rad};
-		ray->normal.normal = ft_vec_normalize(ray->normal.normal);
-
-		res = ft_vec_scalar();
+		//ray->normal.normal = (ray->normal.p - pos) / (t_vector) {rad, rad, rad};
+		//ray->normal.normal = ft_vec_normalize(ray->normal.normal);
+		res = ft_vec_scalar(ft_vec_normalize(rt->light->pos - ray->normal.p),
+		ft_vec_normalize(rt->camera.pos - ray->normal.p));
+			printf("%f || ", res);
+		col.r = abs((int8_t)255 - ray->color.r) * fabs(res);
+		col.g = abs((int8_t)255 - ray->color.g) * fabs(res);
+		col.b = abs((int8_t)255 - ray->color.b) * fabs(res);
+		ray->color = col;
 	}
 	return (result);
 }

@@ -73,7 +73,7 @@ void	ft_start_rt(t_rtv1 *rt)
 					break ;
 				}
 				else
-					rgb = (t_rgb) {45, 45, 45};
+					rgb = (t_rgb) {255, 255, 255};
 				fig = fig->next;
 			}
 			ft_put_pixel_rgb(rt, ray.x, ray.y, &rgb);

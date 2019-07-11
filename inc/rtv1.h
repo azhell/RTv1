@@ -22,8 +22,8 @@
 # include "libft.h"
 # include "error.h"
 
-# define WH 1620
-# define HT 920
+# define WH 500
+# define HT 500
 # define HALFWIDTH WIDTH / 2.0
 # define HALFHEIGHT HEIGHT / 2.0
 # define DIST (double)WIDTH * 1.3
@@ -38,9 +38,9 @@ typedef	double	t_vector __attribute__ ((vector_size (32)));
 
 typedef	struct	s_rgb
 {
-	int16_t		r;
-	int16_t		g;
-	int16_t		b;
+	int8_t		r;
+	int8_t		g;
+	int8_t		b;
 }				t_rgb;
 
 enum	e_figure
