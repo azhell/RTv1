@@ -35,6 +35,7 @@ t_figure	*ft_lst_fig_new(t_all_fig *sv)
 	else if (sv->sphere != NULL)
 	{
 		figure->figure = sphere;
+		figure->color = &sv->sphere->color;
 		figure->figure_data = sv->sphere;
 	}
 	return (figure); //<- pizdec blyt'''''''''''''' ~!!!!!!!~!!~~!~!~!~!~!~!~
@@ -67,4 +68,25 @@ void	ft_add_fig_list(t_all_fig *sv, t_rtv1 *rt)
 		ft_add_fig_back(tmp_lst, add_back);
 		rt->figure = tmp_lst;
 	}
+}
+
+void	ft_add_light_list(t_light *light, t_rtv1 *rt)
+{
+	t_light	*tmp_lst;
+
+	tmp_lst = rt->light;
+	if (rt->light == NULL)
+	{
+		rt->light = light;
+	}
+	else
+	{
+		tmp_lst = rt->light;
+		while (tmp_lst->next)
+			tmp_lst = tmp_lst->next;	
+		tmp_lst->next = light;
+	}
+	KEK;
+	printf("%f %f %f \n", light->pos[X],light->pos[Y],light->pos[Z]);
+	printf("%d %d %d \n", light->color.r,light->color.g ,light->color.b);
 }

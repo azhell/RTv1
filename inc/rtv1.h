@@ -13,35 +13,34 @@
 #ifndef RTV1_H
 # define RTV1_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <math.h>
-#include <SDL2/SDL.h>
-#include <fcntl.h>
-#include "libft.h"
-#include "error.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <math.h>
+# include <SDL2/SDL.h>
+# include <fcntl.h>
+# include "libft.h"
+# include "error.h"
 
-#define WH 920
-#define HT 920
-#define	HALFWIDTH WIDTH / 2.0
-#define	HALFHEIGHT HEIGHT / 2.0
-#define	DIST (double)WIDTH * 1.3
-#define CLIP 0.5f
-#define	X 0
-#define	Y 1
-#define	Z 2
-#define	KEK printf("!!!!!!!!!!!!!!!!!!!!!!\n")
-#define	ADR(x) printf("%p \n", x);
+# define WH 500
+# define HT 500
+# define HALFWIDTH WIDTH / 2.0
+# define HALFHEIGHT HEIGHT / 2.0
+# define DIST (double)WIDTH * 1.3
+# define CLIP 0.5f
+# define X 0
+# define Y 1
+# define Z 2
+# define KEK printf("!!!!!!!!!!!!!!!!!!!!!!\n")
+# define ADR(x) printf("%p \n", x);
 
-typedef double t_vector __attribute__ ((vector_size (32)));
-
+typedef	double	t_vector __attribute__ ((vector_size (32)));
 
 typedef	struct	s_rgb
 {
-	int16_t		r;
-	int16_t		g;
-	int16_t		b;
+	int8_t		r;
+	int8_t		g;
+	int8_t		b;
 }				t_rgb;
 
 enum	e_figure
@@ -64,6 +63,13 @@ typedef	struct		s_plane
 	t_rgb			color;
 }					t_plane;
 
+typedef	struct		s_normal
+{
+	double			t;
+	t_vector		p;
+	t_vector		normal;
+}					t_normal;
+
 typedef	struct		s_cone
 {
 	t_rgb			color;
@@ -83,9 +89,14 @@ typedef	struct		s_inter
 	double			a;
 	double			b;
 	double			c;
-	double			d;
+	t_vector		d;
 }					t_inter;
 
+typedef	struct		s_color
+{
+	t_vector		pos1;
+	t_vector		pos2;
+}					t_color;
 
 typedef	struct		s_sphere
 {
@@ -111,17 +122,18 @@ typedef	struct		s_sdl
 
 typedef	struct		s_figure
 {
-	enum e_figure		figure;
-	void				*figure_data;
-	struct	s_figure	*next;
+	enum e_figure	figure;
+	t_rgb			*color;
+	void			*figure_data;
+	struct s_figure	*next;
 }					t_figure;
 
-typedef	struct		s_ligth
+typedef	struct		s_light
 {
 	t_rgb			color;
 	t_vector		pos;
-	struct	s_ligth	*next;
-}					t_ligth;
+	struct s_light	*next;
+}					t_light;
 
 typedef	struct	s_ray
 {
@@ -131,6 +143,8 @@ typedef	struct	s_ray
 	int32_t			y;
 	t_rgb			color;
 	t_vector		ray;
+	t_normal		normal;
+	float_t			res;
 }				t_ray;
 
 typedef	struct		s_all_fig
@@ -148,12 +162,12 @@ typedef	struct		s_data_ray
 	t_vector		left_corner;
 }					t_data_ray;
 
-
 typedef	struct		s_rtv1
 {
 	t_cam			camera;
 	t_data_ray		data;
 	t_figure		*figure;
+	t_light			*light;
 	t_sdl			sdl;
 }					t_rtv1;
 
@@ -201,10 +215,16 @@ void			ft_start_rt(t_rtv1 *rt);
 
 void			ft_init(t_rtv1 *rt);
 
-float			ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray);
+float			ft_inter_sphere(double rad, t_vector p, t_rtv1 *rt, t_ray *r);
 
 t_figure		*ft_lst_fig_new(t_all_fig *sv);
 
 void			ft_add_fig_list(t_all_fig *sv, t_rtv1 *rt);
+
+void			ft_add_light_list(t_light *light, t_rtv1 *rt);
+
+void			ft_pars_light(char *str, t_rtv1 *rt);
+
+t_rgb			ft_get_color(t_ray *ray, t_rtv1 *rt, t_rgb *figure);
 
 #endif

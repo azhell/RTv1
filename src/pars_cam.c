@@ -15,7 +15,7 @@
 void ft_set_cam_pos(t_cam *cam, char *str)
 {
 	int32_t i;
-	uint8_t count;
+	int8_t count;
 
 	i = 1;
 	count = 0;
@@ -41,7 +41,7 @@ void ft_set_cam_pos(t_cam *cam, char *str)
 void ft_set_cam_dir(t_cam *cam, char *str)
 {
 	int32_t i;
-	uint8_t count;
+	int8_t count;
 
 	i = 1;
 	count = 0;

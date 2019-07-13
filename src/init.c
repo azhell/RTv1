@@ -17,5 +17,4 @@ void	ft_init(t_rtv1 *rt)
 	rt->data.horizontal = (t_vector){4.0, 0.0, 0.0};
 	rt->data.vertical = (t_vector){0.0, 2.0, 0.0};
 	rt->data.left_corner = rt->camera.pos - (t_vector){2.0, 1.0, 1.0};
-	printf("%f %f %f \n", rt->data.left_corner[X], rt->data.left_corner[Y], rt->data.left_corner[Z]);
 }

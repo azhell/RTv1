@@ -21,7 +21,7 @@ int32_t		ft_get_radius_fig(char *str)
 	result = 10;
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			result = ft_atoi(&str[i]);
 			return (result);
@@ -44,11 +44,10 @@ t_vector	ft_get_pos_fig(char *str)
 	pos[Z] = 0;
 	while (str[i] != '\0')
 	{
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			pos[count] = ft_atoi(&str[i]);
-			printf("%d %f\n", ft_atoi(&str[i]), pos[count]);
-			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
+			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57)  || str[i] == '-')
 				i++;
 			i--;
 			count++;
@@ -75,10 +74,10 @@ t_rgb		ft_get_rgb_fig(char *str)
 	while (str[i] != '\0')
 	{
 
-		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
+		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			pos[count] = ft_atoi(&str[i]);
-			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
+			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57) || str[i] == '-')
 				i++;
 			i--;
 			count++;

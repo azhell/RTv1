@@ -14,16 +14,32 @@
 
 float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 {
-	double	a;
-	double	b;
-	double	c;
+	t_inter	inter;
 	double	result;
-	t_vector d;
+	double	res;
+	double	t;
+	t_rgb	col;
 
-	d = rt->camera.pos - pos;
-	a = ft_vec_scalar(ray->ray, ray->ray);
-	b = ft_vec_scalar(d, ray->ray) * 2.0;
-	c = ft_vec_scalar(d, d) - rad * rad;
-	result = (b * b) - (4.0 * a * c);
+	inter.d = rt->camera.pos - pos;
+	inter.a = ft_vec_scalar(ray->ray, ray->ray);
+	inter.b = ft_vec_scalar(inter.d, ray->ray) * 2.0;
+	inter.c = ft_vec_scalar(inter.d, inter.d) - rad * rad;
+	result = (inter.b * inter.b) - (4.0 * inter.a * inter.c);
+	t = (-inter.b - sqrt(inter.b * inter.b - inter.a * inter.c)) / inter.a;
+	if (result > 0)
+	{
+		
+		ray->normal.t = t;
+		ray->normal.p = rt->camera.pos + ft_vec_add_scale(ray->ray, t);
+		//ray->normal.normal = (ray->normal.p - pos) / (t_vector) {rad, rad, rad};
+		//ray->normal.normal = ft_vec_normalize(ray->normal.normal);
+		res = ft_vec_scalar(ft_vec_normalize(rt->light->pos - ray->normal.p),
+		ft_vec_normalize(rt->camera.pos - ray->normal.p));
+			printf("%f || ", res);
+		col.r = abs((int8_t)255 - ray->color.r) * fabs(res);
+		col.g = abs((int8_t)255 - ray->color.g) * fabs(res);
+		col.b = abs((int8_t)255 - ray->color.b) * fabs(res);
+		ray->color = col;
+	}
 	return (result);
 }
