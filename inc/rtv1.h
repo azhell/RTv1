@@ -22,8 +22,8 @@
 # include "libft.h"
 # include "error.h"
 
-# define WH 500
-# define HT 500
+# define WH 1370
+# define HT 900
 # define HALFWIDTH WIDTH / 2.0
 # define HALFHEIGHT HEIGHT / 2.0
 # define DIST (double)WIDTH * 1.3
@@ -38,9 +38,9 @@ typedef	double	t_vector __attribute__ ((vector_size (32)));
 
 typedef	struct	s_rgb
 {
-	int8_t		r;
-	int8_t		g;
-	int8_t		b;
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
 }				t_rgb;
 
 enum	e_figure
@@ -60,15 +60,18 @@ typedef	struct		s_line
 typedef	struct		s_plane
 {
 	t_vector		pos;
+	t_vector		normal;
 	t_rgb			color;
 }					t_plane;
 
-typedef	struct		s_normal
+typedef	struct		s_calc_light
 {
 	double			t;
-	t_vector		p;
+	t_vector		point;
 	t_vector		normal;
-}					t_normal;
+	t_vector		ray_vec;
+	t_vector		light_vec;
+}					t_calc_light;
 
 typedef	struct		s_cone
 {
@@ -89,7 +92,7 @@ typedef	struct		s_inter
 	double			a;
 	double			b;
 	double			c;
-	t_vector		d;
+	t_vector		vec;
 }					t_inter;
 
 typedef	struct		s_color
@@ -132,6 +135,7 @@ typedef	struct		s_light
 {
 	t_rgb			color;
 	t_vector		pos;
+	double			str;
 	struct s_light	*next;
 }					t_light;
 
@@ -141,9 +145,12 @@ typedef	struct	s_ray
 	float_t			v;
 	int32_t			x;
 	int32_t			y;
+	double			t1;
+	double			t2;
+	t_vector		point;
+	t_vector		normal;
 	t_rgb			color;
 	t_vector		ray;
-	t_normal		normal;
 	float_t			res;
 }				t_ray;
 
@@ -215,7 +222,7 @@ void			ft_start_rt(t_rtv1 *rt);
 
 void			ft_init(t_rtv1 *rt);
 
-float			ft_inter_sphere(double rad, t_vector p, t_rtv1 *rt, t_ray *r);
+t_calc_light	*ft_inter_sphere(double rad, t_vector p, t_rtv1 *rt, t_ray *r);
 
 t_figure		*ft_lst_fig_new(t_all_fig *sv);
 
@@ -226,5 +233,11 @@ void			ft_add_light_list(t_light *light, t_rtv1 *rt);
 void			ft_pars_light(char *str, t_rtv1 *rt);
 
 t_rgb			ft_get_color(t_ray *ray, t_rtv1 *rt, t_rgb *figure);
+
+double			ft_vec_len(t_vector	vec1, t_vector vec2);
+
+void			ft_light(t_light *light, t_ray *ray, t_calc_light *calc);
+
+double			ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane);
 
 #endif

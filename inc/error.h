@@ -27,4 +27,6 @@
 
 # define NOL_FOUND_LIGHT "Not found light"
 
+# define BAD_LIGHT_INTS "Bad light strange"
+
 #endif

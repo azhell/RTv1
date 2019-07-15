@@ -47,7 +47,7 @@ t_vector	ft_get_pos_fig(char *str)
 		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
 			pos[count] = ft_atoi(&str[i]);
-			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57)  || str[i] == '-')
+			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57) || str[i] == '-')
 				i++;
 			i--;
 			count++;
@@ -74,10 +74,10 @@ t_rgb		ft_get_rgb_fig(char *str)
 	while (str[i] != '\0')
 	{
 
-		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
+		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
 			pos[count] = ft_atoi(&str[i]);
-			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57) || str[i] == '-')
+			while (str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
 				i++;
 			i--;
 			count++;
@@ -86,8 +86,8 @@ t_rgb		ft_get_rgb_fig(char *str)
 			break ;
 		i++;
 	}
-	rgb.r = pos[0];
-	rgb.g = pos[1];
-	rgb.b = pos[2];
+	rgb.r = (int)pos[0];
+	rgb.g = (int)pos[1];
+	rgb.b = (int)pos[2];
 	return (rgb);
 }

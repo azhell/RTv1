@@ -14,8 +14,8 @@
 
 float	ft_calc_figure(t_figure *figure, t_rtv1 *rt, t_ray *ray)
 {
-	t_all_fig	fig;
-	float		result;
+	t_all_fig		fig;
+	t_calc_light	*result;
 
 	if (figure->figure == sphere)
 	{
@@ -23,7 +23,23 @@ float	ft_calc_figure(t_figure *figure, t_rtv1 *rt, t_ray *ray)
 		ray->color = fig.sphere->color;
 		result = ft_inter_sphere(fig.sphere->radius, fig.sphere->pos, rt, ray);
 		fig.sphere = NULL;
-		return (result > 0);
+		if (result != NULL)
+		{
+			ft_light(rt->light, ray, result);
+			return (1);
+		}
+		else
+			return (0);	
+	}
+	if (figure->figure == plane)
+	{
+		fig.plane = (t_plane*)figure->figure_data;
+		ray->color = fig.plane->color;
+		if (ft_inter_plane(rt, ray, fig.plane))
+			return (1);
+		else
+			return (0);
+		
 	}
 	return (0);
 }
@@ -70,7 +86,7 @@ void	ft_start_rt(t_rtv1 *rt)
 				if (res)
 				{
 					rgb = ray.color;
-					break ;
+					//break ;
 				}
 				else
 					rgb = (t_rgb) {255, 255, 255};

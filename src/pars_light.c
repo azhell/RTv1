@@ -27,6 +27,13 @@ t_light	*ft_pr_light(char *str)
 	if (fig == NULL)
 		ft_print_error(BAD_FIGURE_POS);
 	light->color = ft_get_rgb_fig(fig);
+		fig = ft_strstr(str, "str");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	light->str = ft_get_radius_fig(fig);
+	if (light->str > 100)
+		ft_print_error(BAD_LIGHT_INTS);
+	light->str /= 100.0;
 	return (light);
 }
 

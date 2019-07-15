@@ -12,6 +12,31 @@
 
 #include "rtv1.h"
 
+t_plane		*ft_parse_plane(char *str)
+{
+	char		*fig;
+	t_plane		*plane;
+
+	plane = ft_memalloc(sizeof(t_plane));
+	ft_bzero(plane, sizeof(t_plane));
+	fig = ft_strstr(str, "pos");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	plane->pos = ft_get_pos_fig(fig);
+	fig = ft_strstr(str, "color");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	plane->color = ft_get_rgb_fig(fig);
+	fig = ft_strstr(str, "normal");
+	if (fig == NULL)
+		ft_print_error(BAD_FIGURE_POS);
+	plane->normal = ft_get_pos_fig(fig);
+	printf("%f %f %f \n", plane->pos[X], plane->pos[Y], plane->pos[Z]);
+	printf("%d %d %d \n", plane->color.r, plane->color.g, plane->color.b);
+	printf("%f %f %f \n", plane->normal[X], plane->normal[Y], plane->normal[Z]);
+	return (plane);
+}
+
 t_sphere	*ft_parse_sphere(char *str)
 {
 	char		*fig;
@@ -31,6 +56,9 @@ t_sphere	*ft_parse_sphere(char *str)
 	if (fig == NULL)
 		ft_print_error(BAD_FIGURE_POS);
 	sphere->radius = ft_get_radius_fig(fig);
+	//printf("%f %f %f \n", sphere->pos[X], sphere->pos[Y], sphere->pos[Z]);
+	printf("%d %d %d \n", sphere->color.r, sphere->color.g, sphere->color.b);
+
 	return (sphere);
 }
 
@@ -58,6 +86,7 @@ void		ft_pars_figure(char *str, t_rtv1 *rt)
 {
 	char		*figure;
 	char		*res;
+	t_figure	*fig;
 	t_all_fig	*sv;
 	int32_t		i;
 
@@ -72,10 +101,26 @@ void		ft_pars_figure(char *str, t_rtv1 *rt)
 			{
 				sv->sphere = ft_parse_sphere(res);
 				if (sv->sphere != NULL)
+				{
 					ft_add_fig_list(sv, rt);
+					sv->sphere = NULL;
+				}
+			}
+		}
+		if (figure[i] >= 97 && figure[i] <= 122)
+		{
+			if ((res = ft_strnstr(&figure[i], "plane", 5)))
+			{
+				sv->plane = ft_parse_plane(res);
+				if (sv->plane != NULL)
+				{
+					ft_add_fig_list(sv, rt);
+					sv->plane = NULL;
+				}
 			}
 		}
 		i++;
 	}
+	fig = rt->figure;
 	free(sv);
 }

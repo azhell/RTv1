@@ -12,34 +12,47 @@
 
 #include "rtv1.h"
 
-float_t	ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
+t_calc_light	*ft_inter_sphere(double rad, t_vector pos, t_rtv1 *rt, t_ray *ray)
 {
-	t_inter	inter;
-	double	result;
-	double	res;
-	double	t;
-	t_rgb	col;
+	t_inter			inter;
+	static	t_calc_light	calc_rgb;
+	double			result;
 
-	inter.d = rt->camera.pos - pos;
+	inter.vec = rt->camera.pos - pos;
 	inter.a = ft_vec_scalar(ray->ray, ray->ray);
-	inter.b = ft_vec_scalar(inter.d, ray->ray) * 2.0;
-	inter.c = ft_vec_scalar(inter.d, inter.d) - rad * rad;
+	inter.b = ft_vec_scalar(inter.vec, ray->ray) * 2.0;
+	inter.c = ft_vec_scalar(inter.vec, inter.vec) - rad * rad;
 	result = (inter.b * inter.b) - (4.0 * inter.a * inter.c);
-	t = (-inter.b - sqrt(inter.b * inter.b - inter.a * inter.c)) / inter.a;
+	if (result < 0)
+		return (NULL);
+	ray->t1 = (-inter.b - sqrt(result)) / (2.0 * inter.a);
+	ray->t2 = (-inter.b + sqrt(result)) / (2.0 * inter.a);
 	if (result > 0)
 	{
-		
-		ray->normal.t = t;
-		ray->normal.p = rt->camera.pos + ft_vec_add_scale(ray->ray, t);
-		//ray->normal.normal = (ray->normal.p - pos) / (t_vector) {rad, rad, rad};
-		//ray->normal.normal = ft_vec_normalize(ray->normal.normal);
-		res = ft_vec_scalar(ft_vec_normalize(rt->light->pos - ray->normal.p),
-		ft_vec_normalize(rt->camera.pos - ray->normal.p));
-			printf("%f || ", res);
-		col.r = abs((int8_t)255 - ray->color.r) * fabs(res);
-		col.g = abs((int8_t)255 - ray->color.g) * fabs(res);
-		col.b = abs((int8_t)255 - ray->color.b) * fabs(res);
-		ray->color = col;
+		calc_rgb.point = rt->camera.pos + ft_vec_add_scale(ray->ray, ray->t1);
+		calc_rgb.normal = (calc_rgb.point - pos) / (t_vector) {rad, rad, rad};
+		calc_rgb.normal = ft_vec_normalize(calc_rgb.normal);
+		calc_rgb.ray_vec = ray->ray;
+		calc_rgb.light_vec = ft_vec_normalize(rt->light->pos - calc_rgb.point);
 	}
-	return (result);
+	return (&calc_rgb);
+}
+ 
+double	ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane)
+{
+	t_inter					inter;
+	//static	t_calc_light	calc_rgb;
+	double	t;
+
+	t = -1;
+	inter.a = ft_vec_scalar(plane->normal, ray->ray);
+//	printf("%f | ", inter.a);
+	if (inter.a > 1e-6)
+	{
+		inter.vec = plane->pos - rt->camera.pos;
+		t = ft_vec_scalar(inter.vec, plane->normal) / inter.a;
+		// printf("%f | ", inter.a);
+		ray->color = plane->color;
+	}
+	return (t >= 0);
 }

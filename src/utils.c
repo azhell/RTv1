@@ -23,10 +23,16 @@ void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col)
 			rt->sdl.win_surf->pitch + x *
 			rt->sdl.win_surf->format->BytesPerPixel;
 
+	//color = SDL_MapRGB(rt->sdl.win_surf->format, col->r, col->g, col->b);
 	color = (col->r << 16) | (col->g << 8) | col->b;
 	*target_pixel = -color;
 }
 
+double			ft_vec_len(t_vector	vec1, t_vector vec2)
+{
+	return (sqrt(pow(vec1[X] - vec2[X], 2) +
+	pow(vec1[Y] - vec2[Y], 2) + pow(vec1[Z] - vec2[Z], 2)));
+}
 
 t_vector		ft_vec_normalize(t_vector vec)
 {
