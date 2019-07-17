@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include "get_next_line.h"
 
+# define CLEAR ft_putstr("\033[1J"); ft_putstr("\033[;H");
+
 typedef struct	s_list
 {
 	void			*content;
@@ -79,6 +81,7 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_itoa(int n);
 char			*ft_strndup(const char *src, size_t size);
 int				get_next_line(const int fd, char **line);
+double			ft_atof(const char *atof);
 
 /*
 **	Io

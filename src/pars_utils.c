@@ -12,10 +12,10 @@
 
 #include "rtv1.h"
 
-int32_t		ft_get_radius_fig(char *str)
+double_t	ft_get_radius_fig(char *str)
 {
 	int32_t	i;
-	int32_t	result;
+	double	result;
 
 	i = 1;
 	result = 10;
@@ -23,7 +23,7 @@ int32_t		ft_get_radius_fig(char *str)
 	{
 		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
-			result = ft_atoi(&str[i]);
+			result = ft_atof(&str[i]);
 			return (result);
 		}
 		i++;
@@ -46,8 +46,9 @@ t_vector	ft_get_pos_fig(char *str)
 	{
 		if (((str[i] >= 47 && str[i] <= 57) && str[i - 1]) || str[i] == '-')
 		{
-			pos[count] = ft_atoi(&str[i]);
-			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57) || str[i] == '-')
+			pos[count] = ft_atof(&str[i]);
+			while ((str[i] != '\0' && str[i] >= 47 && str[i] <= 57)
+			|| str[i] == '-')
 				i++;
 			i--;
 			count++;
@@ -66,14 +67,11 @@ t_rgb		ft_get_rgb_fig(char *str)
 	int32_t		i;
 	int8_t		count;
 
-	i = 1;
+	i = 0;
 	count = 0;
-	pos[X] = 0;
-	pos[Y] = 0;
-	pos[Z] = 0;
-	while (str[i] != '\0')
+	pos = (t_vector) {0, 0, 0};
+	while (str[++i] != '\0')
 	{
-
 		if ((str[i] >= 47 && str[i] <= 57) && str[i - 1])
 		{
 			pos[count] = ft_atoi(&str[i]);
@@ -84,7 +82,6 @@ t_rgb		ft_get_rgb_fig(char *str)
 		}
 		if (count == 3)
 			break ;
-		i++;
 	}
 	rgb.r = (int)pos[0];
 	rgb.g = (int)pos[1];

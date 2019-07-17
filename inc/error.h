@@ -13,7 +13,7 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-# define BAD_USAGE "Usage: rtv1 \"file.json\""
+# define BAD_USAGE "Usage: rtv1 \"scene.txt\""
 
 # define BAD_ALLOC "Error alloc"
 
@@ -21,12 +21,12 @@
 
 # define ERROR_CAM_INIT "Not found camera"
 
-# define BAD_FIGURE_POS "Bad figure position"
+# define BAD_FIGURE_POS "Bad position"
 
 # define NOT_FOUND_FIGURE "Not found primitive"
 
 # define NOL_FOUND_LIGHT "Not found light"
 
-# define BAD_LIGHT_INTS "Bad light strange"
+# define BAD_LIGHT_INTS "Bad light intense"
 
 #endif

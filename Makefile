@@ -26,7 +26,7 @@ else
 	SDL2 +=  -lm -lSDL2
 endif
 
-OPT = -g
+OPT = -O3 -flto -pipe -Ofast -march=native -mtune=native
 DB = -g3
 
 INC	= inc/
@@ -37,11 +37,12 @@ OBJ		= $(patsubst %.cpp,obj/%.o,$(SRC))
 
 .SILENT:
 
-all: $(NAME)
+all: $(NAME) clean
 
 $(NAME): $(OBJ)
 	make -C libft/
 	gcc -Wall -Wextra $(OPT) $(SRC) -o $(NAME) $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2_P) $(SDLFLAGS) $(SDL2)
+	/bin/rm -rf RTv1_db
 	printf '\033[32m[ ✔ ] %s\n\033[0m' "Create RTv1"
 
 obj/%.o: src/%.c
@@ -49,7 +50,7 @@ obj/%.o: src/%.c
 	gcc -Wall -Wextra -c  $(OPT)  $< -o $@ $(LIB) -I$(INC) $(SDL2_HEADER) $(SDL2)
 	printf '\033[0m[ ✔ ] %s\n\033[0m' "$<"
 
-db: $(NAME)
+db: $(NAMEDB)
 
 $(NAMEDB): $(OBJ)
 	$(SDL2)
@@ -65,7 +66,7 @@ obj/%.o: src/%.c
 clean:
 	/bin/rm -rf obj/
 	make -C libft/ clean
-	printf '\033[31m[ ✔ ] %s\n\033[0m' "Clean Libprintf"
+	printf '\033[31m[ ✔ ] %s\n\033[0m' "Clean Libft && obj"
 
 fclean: clean
 	/bin/rm -f $(NAME)

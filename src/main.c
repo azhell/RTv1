@@ -31,6 +31,7 @@ int main(int ac, char **av)
 	ft_read(av[1], rt);
 	ft_init(rt);
 	ft_sdl_init(rt);
+	CLEAR;
 	ft_sdlloop(rt);
 	SDL_Quit();
 	system("leaks RTv1");

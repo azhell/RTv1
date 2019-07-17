@@ -14,5 +14,10 @@
 
 void	ft_init(t_rtv1 *rt)
 {
+	t_buffer	*buffer;
 
+	rt->size = sizeof(t_buffer) * rt->num_figure;
+	buffer = ft_memalloc(rt->size);
+	ft_bzero(buffer, rt->size);
+	rt->buffer = buffer;
 }

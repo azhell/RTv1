@@ -78,7 +78,8 @@ SRC = ft_memset.c \
 				ft_lstcount.c \
 				ft_lstaddback.c \
 				ft_strlower.c \
-				get_next_line.c
+				ft_atof.c \
+				get_next_line.c 
 
 SRCO = *.o
 
