@@ -26,7 +26,7 @@
 
 # define WH 1370
 # define HT 900
-# define THREAD 2
+# define THREAD 1
 # define HALFWIDTH WIDTH / 2.0
 # define HALFHEIGHT HEIGHT / 2.0
 # define DIST (double)WIDTH * 1.3
@@ -93,9 +93,9 @@ typedef	struct		s_plane
 typedef	struct		s_sphere
 {
 	t_vector		pos;
-	Uint8			id;
+	double			radius;
+	int32_t			id;
 	t_rgb			color;
-	double	radius;
 }					t_sphere;
 
 typedef	struct		s_cone
@@ -244,9 +244,12 @@ typedef	struct		s_thread
 	t_rtv1			*rt;
 	t_ray			*ray;
 	t_sdl			sdl;
+	size_t			num_figure;
+	size_t			num_light;
 	int32_t			y;
 	int32_t			y_end;
 	int8_t			n_thr;
+	t_buffer		*buffer;
 }					t_thread;
 
 void				ft_mem_th_data_stack(t_rtv1 *rt, int8_t i);
@@ -289,13 +292,13 @@ double_t			ft_get_radius_fig(char *str);
 
 void				ft_pars_figure(char *str, t_rtv1 *rt);
 
-void				ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col);
+void				ft_put_pixel_rgb(t_thread *rt, int x, int y, t_rgb *col);
 
 void				ft_start_rt(t_rtv1 *rt);
 
 void				ft_init(t_rtv1 *rt);
 
-int32_t				ft_inter_sphere(t_rtv1 *rt, t_ray *ray, t_sphere *plane);
+int32_t				ft_inter_sphere(t_ray *ray, t_sphere *plane);
 
 t_figure			*ft_lst_fig_new(t_all_fig *sv, size_t id);
 
@@ -309,23 +312,23 @@ t_rgb				ft_get_color(t_ray *ray, t_rtv1 *rt, t_rgb *figure);
 
 double				ft_vec_len(t_vector	vec1, t_vector vec2);
 
-void				ft_light(t_light *light, t_ray *ray, t_rtv1 *rt);
+void				ft_light(t_light_stack *light, t_ray *ray, t_thread *rt);
 
-int32_t				ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane);
+int32_t				ft_inter_plane(t_ray *ray, t_plane *plane);
 
-void				ft_draw(t_rtv1 *rt, int32_t x, int32_t y);
+void				ft_draw(t_thread *rt, int32_t x, int32_t y);
 
-int32_t				ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cyl);
+int32_t				ft_inter_cylinder(t_ray *ray, t_cylinder *cyl);
 
-int32_t				ft_inter_cone(t_rtv1 *rt, t_ray *ray, t_cone *cone);
+int32_t				ft_inter_cone(t_ray *ray, t_cone *cone);
 
-int32_t				ft_calc_sphere(t_sphere *sphere, t_rtv1 *rt, t_ray *ray);
+int32_t				ft_calc_sphere(t_sphere *sphere, t_thread *rt, t_ray *ray);
 
-int32_t				ft_calc_plane(t_plane *plane, t_rtv1 *rt, t_ray *ray);
+int32_t				ft_calc_plane(t_plane *plane, t_thread *rt, t_ray *ray);
 
-int32_t				ft_calc_cone(t_cone *cone, t_rtv1 *rt, t_ray *ray);
+int32_t				ft_calc_cone(t_cone *cone, t_thread *rt, t_ray *ray);
 
-int32_t				ft_calc_cylinder(t_cylinder *cylinder, t_rtv1 *rt, t_ray *ray);
+int32_t				ft_calc_cylinder(t_cylinder *cylinder, t_thread *rt, t_ray *ray);
 
 void				ft_start_rt_thread(t_rtv1 *r, t_thread *thread);
 

@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int32_t	ft_inter_sphere(t_rtv1 *rt, t_ray *ray, t_sphere *sphere)
+int32_t	ft_inter_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_inter					inter;
 
@@ -29,7 +29,7 @@ int32_t	ft_inter_sphere(t_rtv1 *rt, t_ray *ray, t_sphere *sphere)
 	return (1);
 }
 
-int32_t	ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane)
+int32_t	ft_inter_plane(t_ray *ray, t_plane *plane)
 {
 	t_inter		inter;
 
@@ -45,7 +45,7 @@ int32_t	ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane)
 	return (1);
 }
 
-int32_t	ft_inter_cap(t_rtv1 *rt, t_ray *ray, t_plane *plane)
+int32_t	ft_inter_cap(t_ray *ray, t_plane *plane)
 {
 	t_inter		inter;
 	static	t_calc_light	calc_rgb;
@@ -67,7 +67,7 @@ int32_t	ft_inter_cap(t_rtv1 *rt, t_ray *ray, t_plane *plane)
 	return (2);
 }
 
-int32_t		ft_check_cap(t_rtv1 *rt, t_ray *ray, void *fig, t_inter *inter)
+int32_t		ft_check_cap(t_ray *ray, void *fig, t_inter *inter)
 {
 	t_plane		plane;
 	t_cone		*cone;
@@ -82,7 +82,7 @@ int32_t		ft_check_cap(t_rtv1 *rt, t_ray *ray, void *fig, t_inter *inter)
 			plane.id = cone->id;
 			plane.normal = -cone->rot;
 			plane.pos = cone->pos + cone->size * -cone->rot;
-			return (ft_inter_cap(rt, ray, &plane));
+			return (ft_inter_cap(ray, &plane));
 		}
 	}
 	else 
@@ -94,14 +94,14 @@ int32_t		ft_check_cap(t_rtv1 *rt, t_ray *ray, void *fig, t_inter *inter)
 			plane.id = cone->id;
 			plane.normal = cone->rot;
 			plane.pos = cone->pos;
-			return (ft_inter_cap(rt, ray, &plane));
+			return (ft_inter_cap(ray, &plane));
 		}
 	}
 	return (1);
 }
 
 
-int32_t	ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cylinder)
+int32_t	ft_inter_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_inter					inter;
 	double					result;
@@ -123,7 +123,7 @@ int32_t	ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cylinder)
 	inter.dist1 = ft_vec_len(ray->cam_pos, cylinder->pos + cylinder->size * cylinder->rot);
 	inter.dist2 = ft_vec_len(ray->cam_pos, cylinder->pos);
 	inter.flag_cone = 0;
-	ret = ft_check_cap(rt, ray, cylinder, &inter);
+	ret = ft_check_cap(ray, cylinder, &inter);
 	if (ret == 2)
 		return (2);
 	else if (ret == 0)
@@ -136,7 +136,7 @@ int32_t	ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cylinder)
 }
 
 
-int32_t		ft_inter_cone(t_rtv1 *rt, t_ray *ray, t_cone *cone)
+int32_t		ft_inter_cone(t_ray *ray, t_cone *cone)
 {
 	t_inter		inter;
 	double		result;
@@ -161,7 +161,7 @@ int32_t		ft_inter_cone(t_rtv1 *rt, t_ray *ray, t_cone *cone)
 	inter.dist1 = ft_vec_len(ray->cam_pos, cone->pos + cone->size * cone->rot);
 	inter.dist2 = ft_vec_len(ray->cam_pos, cone->pos);
 	inter.flag_cone = 1;
-	ret = ft_check_cap(rt, ray, cone, &inter);
+	ret = ft_check_cap(ray, cone, &inter);
 	if (ret == 2)
 		return (2);
 	else if (ret == 0)

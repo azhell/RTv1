@@ -83,8 +83,8 @@ t_rgb		ft_get_rgb_fig(char *str)
 		if (count == 3)
 			break ;
 	}
-	rgb.r = (int)pos[0];
-	rgb.g = (int)pos[1];
-	rgb.b = (int)pos[2];
+	rgb.r = (int8_t)pos[0];
+	rgb.g = (int8_t)pos[1];
+	rgb.b = (int8_t)pos[2];
 	return (rgb);
 }

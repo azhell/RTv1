@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-void			ft_put_pixel_rgb(t_rtv1 *rt, int x, int y, t_rgb *col)
+void			ft_put_pixel_rgb(t_thread *rt, int x, int y, t_rgb *col)
 {
 	int32_t		*target_pixel;
 	int32_t		color;

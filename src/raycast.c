@@ -12,36 +12,38 @@
 
 #include "rtv1.h"
 
-int32_t	ft_calc_figure(t_figure *figure, t_rtv1 *rt, t_ray *ray)
+int32_t	ft_calc_figure(t_figure_stack *figure, t_thread *rt, t_ray *ray, int32_t num)
 {
+	printf("%u | ", figure->figure);
+
 	if (figure->figure == sphere)
-		if (ft_calc_sphere((t_sphere*)figure->figure_data, rt, ray))
+		if (ft_calc_sphere((t_sphere*)&figure->figure_data, rt, ray))
 		{
 			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-	if (figure->figure == plane)
-		if (ft_calc_plane((t_plane*)figure->figure_data, rt, ray))
-		{
-			ft_light(rt->light, ray, rt);
-			return (1);
-		}
+	// if (figure->figure == plane)
+	// 	if (ft_calc_plane((t_plane*)&figure->figure_data, rt, ray))
+	// 	{
+	// 		ft_light(rt->light, ray, rt);
+	// 		return (1);
+	// 	}
 	if (figure->figure == cylinder)
-		if (ft_calc_cylinder((t_cylinder*)figure->figure_data, rt, ray))
+		if (ft_calc_cylinder((t_cylinder*)&figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, rt);
+		//	ft_light(rt->light, ray, rt);
 			return (1);
 		}
 	if (figure->figure == cone)
-		if (ft_calc_cone((t_cone*)figure->figure_data, rt, ray))
+		if (ft_calc_cone((t_cone*)&figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, rt);
+		//	ft_light(rt->light, ray, rt);
 			return (1);
 		}
 	return (0);
 }
 
-void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
+void	ft_gen_ray(t_thread *rt, t_ray *ray)
 {
 	double		u;
 	double		v;
@@ -52,29 +54,29 @@ void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
 	v = (double)(WH - ray->x * 2.0) / (double)WH;
 	u = (double)(HT - ray->y * 2.0) / (double)WH;
 	corn = (t_vector) {0.0, 1.0, 0.0};
-	rt->camera.vector = ft_vec_sub(rt->camera.direct, rt->camera.pos);
-	rt->camera.vector = ft_vec_normalize(rt->camera.vector);
-	tab = ft_vec_cross(rt->camera.vector, corn);
+	rt->cam->vector = ft_vec_sub(rt->cam->direct, rt->cam->pos);
+	rt->cam->vector = ft_vec_normalize(rt->cam->vector);
+	tab = ft_vec_cross(rt->cam->vector, corn);
 	tab = ft_vec_normalize(tab);
-	dir = ft_vec_cross(rt->camera.vector, tab);
-	ray->ray[X] = u * tab[X] + v * dir[X] + 2.0 * rt->camera.vector[X];
-	ray->ray[Y] = u * tab[Y] + v * dir[Y] + 2.0 * rt->camera.vector[Y];
-	ray->ray[Z] = u * tab[Z] + v * dir[Z] + 2.0 * rt->camera.vector[Z];
+	dir = ft_vec_cross(rt->cam->vector, tab);
+	ray->ray[X] = u * tab[X] + v * dir[X] + 2.0 * rt->cam->vector[X];
+	ray->ray[Y] = u * tab[Y] + v * dir[Y] + 2.0 * rt->cam->vector[Y];
+	ray->ray[Z] = u * tab[Z] + v * dir[Z] + 2.0 * rt->cam->vector[Z];
 	ray->ray = ft_vec_normalize(ray->ray);
 }
 
-void	ft_solve_ray(t_rtv1 *rt, t_ray *ray, int8_t th)
+void	ft_solve_ray(t_thread *rt, t_ray *ray)
 {
-	size_t		count;
-	float		res;
-	t_figure	*fig;
+	size_t			count;
+	float			res;
+	size_t			i;
 
 	count = 0;
-	fig = rt->figure;
 	res = 0;
-	while (fig)
+	i = 0;
+	while (i < rt->num_figure)
 	{
-		res = ft_calc_figure(fig, rt, ray);
+		res = ft_calc_figure(&rt->figure[i], rt, ray, i);
 		if (res)
 		{
 			rt->buffer[count].distanse = ray->t1;
@@ -87,27 +89,24 @@ void	ft_solve_ray(t_rtv1 *rt, t_ray *ray, int8_t th)
 			rt->buffer[count].color = (t_rgb) {250, 250, 250};
 			count++;
 		}
-		fig = fig->next;
+		i++;
 	}
 }
 
-void	ft_start_rt_t(t_thread *voda)
+void	ft_start_rt_t(t_thread *rt)
 {
 	t_ray		ray;
-	t_rtv1		*rt;
 
-	rt = voda->rt;
-	ray.x = voda->y;
-	ray.cam_pos = rt->camera.pos;
+	ray.x = rt->y;
+	ray.cam_pos = rt->cam->pos;
 	ray.y = 0;
 	while (ray.y < HT)
 	{
-		ray.x = voda->y;
-		while (ray.x < voda->y_end)
+		ray.x = rt->y;
+		while (ray.x < rt->y_end)
 		{
 			ft_gen_ray(rt, &ray);
-			ft_bzero(rt->buffer, rt->size);
-			ft_solve_ray(rt, &ray, voda->n_thr);
+			ft_solve_ray(rt, &ray);
 			ft_draw(rt, ray.x, ray.y);
 			ray.x++;
 		}

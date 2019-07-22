@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-void	ft_draw(t_rtv1 *rt, int32_t x, int32_t y)
+void	ft_draw(t_thread *rt, int32_t x, int32_t y)
 {
 	t_buffer	buf_min;
 	size_t		count;
