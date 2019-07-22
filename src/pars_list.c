@@ -22,28 +22,32 @@ t_figure	*ft_lst_fig_new(t_all_fig *sv, size_t id)
 		sv->cone->id = id;
 		figure->figure = cone;
 		figure->figure_id = id;
-		figure->color = &sv->cone->color;
 		figure->figure_data = sv->cone;
+		figure->size = sizeof(t_cone);
 	}
 	else if (sv->plane != NULL)
 	{
+		sv->plane->id = id;
 		figure->figure = plane;
 		figure->figure_id = id;
-		figure->color = &sv->plane->color;
 		figure->figure_data = sv->plane;
+		figure->size = sizeof(t_plane);
 	}
 	else if (sv->cylinder != NULL)
 	{
+		sv->cylinder->id = id;
 		figure->figure = cylinder;
 		figure->figure_id = id;
 		figure->figure_data = sv->cylinder;
+		figure->size = sizeof(t_cylinder);
 	}
 	else if (sv->sphere != NULL)
 	{
+		sv->sphere->id = id;
 		figure->figure = sphere;
 		figure->figure_id = id;
-		figure->color = &sv->sphere->color;
 		figure->figure_data = sv->sphere;
+		figure->size = sizeof(t_sphere);
 	}
 	return (figure); //<- pizdec blyt'''''''''''''' ~!!!!!!!~!!~~!~!~!~!~!~!~
 }

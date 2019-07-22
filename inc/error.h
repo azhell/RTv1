@@ -29,4 +29,6 @@
 
 # define BAD_LIGHT_INTS "Bad light intense"
 
+# define BAD_THREAD "Bad num thread"
+
 #endif

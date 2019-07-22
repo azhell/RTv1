@@ -12,66 +12,39 @@
 
 #include "rtv1.h"
 
-float	ft_calc_figure(t_figure *figure, t_rtv1 *rt, t_ray *ray)
+int32_t	ft_calc_figure(t_figure *figure, t_rtv1 *rt, t_ray *ray)
 {
-	t_all_fig		fig;
-	t_calc_light	*result;
-
 	if (figure->figure == sphere)
-	{
-		fig.sphere = (t_sphere*)figure->figure_data;
-		ray->color = fig.sphere->color;
-		result = ft_inter_sphere(fig.sphere, rt, ray);
-		fig.sphere = NULL;
-		if (result != NULL)
+		if (ft_calc_sphere((t_sphere*)figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, result, rt);
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-	}
 	if (figure->figure == plane)
-	{
-		fig.plane = (t_plane*)figure->figure_data;
-		ray->color = fig.plane->color;
-		result = ft_inter_plane(rt, ray, fig.plane);
-		fig.plane = NULL;
-		if (result != NULL)
+		if (ft_calc_plane((t_plane*)figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, result, rt);
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-
-	}
 	if (figure->figure == cylinder)
-	{
-		fig.cylinder = (t_cylinder*)figure->figure_data;
-		ray->color = fig.cylinder->color;
-		result = ft_inter_cylinder(rt, ray, fig.cylinder);
-		fig.cylinder = NULL;
-		if (result != NULL)
+		if (ft_calc_cylinder((t_cylinder*)figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, result, rt);
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-	}
 	if (figure->figure == cone)
-	{
-		fig.cone = (t_cone*)figure->figure_data;
-		ray->color = fig.cone->color;
-		result = ft_inter_cone(rt, ray, fig.cone);
-		fig.cone = NULL;
-		if (result != NULL)
+		if (ft_calc_cone((t_cone*)figure->figure_data, rt, ray))
 		{
-			ft_light(rt->light, ray, result, rt);
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-	}
 	return (0);
 }
 
 void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
 {
-	double	u, v;
+	double		u;
+	double		v;
 	t_vector	tab;
 	t_vector	corn;
 	t_vector	dir;
@@ -90,43 +63,88 @@ void	ft_gen_ray(t_rtv1 *rt, t_ray *ray)
 	ray->ray = ft_vec_normalize(ray->ray);
 }
 
-void	ft_start_rt(t_rtv1 *rt)
+void	ft_solve_ray(t_rtv1 *rt, t_ray *ray, int8_t th)
+{
+	size_t		count;
+	float		res;
+	t_figure	*fig;
+
+	count = 0;
+	fig = rt->figure;
+	res = 0;
+	while (fig)
+	{
+		res = ft_calc_figure(fig, rt, ray);
+		if (res)
+		{
+			rt->buffer[count].distanse = ray->t1;
+			rt->buffer[count].color = ray->color;
+			count++;
+		}
+		else
+		{
+			rt->buffer[count].distanse = -1;
+			rt->buffer[count].color = (t_rgb) {250, 250, 250};
+			count++;
+		}
+		fig = fig->next;
+	}
+}
+
+void	ft_start_rt_t(t_thread *voda)
 {
 	t_ray		ray;
-	t_figure	*fig;
-	float		res;
-	int32_t		count;
+	t_rtv1		*rt;
 
+	rt = voda->rt;
+	ray.x = voda->y;
+	ray.cam_pos = rt->camera.pos;
 	ray.y = 0;
 	while (ray.y < HT)
 	{
-		ray.x = 0;
-		while (ray.x < WH)
+		ray.x = voda->y;
+		while (ray.x < voda->y_end)
 		{
-			fig = rt->figure;
 			ft_gen_ray(rt, &ray);
-			count = 0;
 			ft_bzero(rt->buffer, rt->size);
-			while (fig)
-			{
-				res = ft_calc_figure(fig, rt, &ray);
-				if (res)
-				{
-					rt->buffer[count].distanse = ray.t1;
-					rt->buffer[count].color = ray.color;
-					count++;
-				}
-				else
-				{
-					rt->buffer[count].distanse = -1;
-					rt->buffer[count].color = (t_rgb) {240, 240, 240};
-					count++;
-				}
-				fig = fig->next;
-			}
+			ft_solve_ray(rt, &ray, voda->n_thr);
 			ft_draw(rt, ray.x, ray.y);
 			ray.x++;
 		}
 		ray.y++;
 	}
+}
+
+void	ft_set_xy(t_thread *thead, uint32_t count)
+{
+	int32_t	diff;
+	int32_t y_start;
+	int32_t y_end;
+
+	diff = WH / THREAD;
+	y_start = diff * count;
+	y_end = y_start + diff;
+	thead->y = y_start;
+	thead->y_end = y_end;
+}
+
+void	ft_start_rt_thread(t_rtv1 *rt, t_thread *thread)
+{
+	pthread_t	th[THREAD];
+	uint32_t	count;
+	void		(*rt_start)	(t_thread*);
+
+	rt_start = ft_start_rt_t;
+	count = -1;
+	thread->rt = rt;
+	while (++count < THREAD)
+	{
+		thread[count].n_thr = count;
+		thread[count].rt = rt;
+		ft_set_xy(&thread[count], count);
+		pthread_create(&th[count], NULL, (void*)rt_start, &thread[count]);
+	}
+	count = 0;
+	while (count < THREAD)
+		pthread_join(th[count++], NULL);
 }

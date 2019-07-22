@@ -19,11 +19,14 @@
 # include <math.h>
 # include <SDL2/SDL.h>
 # include <fcntl.h>
+# include <pthread.h>
+# include <sys/wait.h>
 # include "libft.h"
 # include "error.h"
 
 # define WH 1370
 # define HT 900
+# define THREAD 2
 # define HALFWIDTH WIDTH / 2.0
 # define HALFHEIGHT HEIGHT / 2.0
 # define DIST (double)WIDTH * 1.3
@@ -54,62 +57,71 @@ enum				e_figure
 	cone
 };
 
+typedef	struct		s_shadow
+{
+	t_vector		*vec;
+	t_vector		*pos;
+	double			len;
+	uint16_t		id;
+}					t_shadow;
+
 typedef	struct		s_line
 {
 	char			*content;
 	struct s_line	*next;
 }					t_line;
 
-
 typedef	struct		s_calc_light
 {
-	double			t;
-	size_t			id;
-	int32_t			flag_plane;
 	t_vector		point;
 	t_vector		normal;
 	t_vector		ray_vec;
 	t_vector		light_vec;
+	double			t;
+	int32_t			flag_plane;
+	Uint8			id;
 }					t_calc_light;
 
 typedef	struct		s_plane
 {
-	size_t			id;
 	t_vector		pos;
 	t_vector		normal;
+	size_t			id;
 	t_rgb			color;
 }					t_plane;
 
 typedef	struct		s_sphere
 {
-	size_t			id;
 	t_vector		pos;
+	Uint8			id;
 	t_rgb			color;
 	double	radius;
 }					t_sphere;
 
 typedef	struct		s_cone
 {
-	size_t			id;
-	t_rgb			color;
-	t_vector		pos;
 	t_vector		rot;
+	t_vector		pos;
 	double			size;
 	double			radius;
+	uint8_t			id;
+	t_rgb			color;
 }					t_cone;
 
 typedef	struct		s_cylinder
 {
-	size_t			id;
-	t_vector		pos;
-	t_rgb			color;
 	t_vector		rot;
+	t_vector		pos;
 	double			size;
 	double			radius;
+	size_t			id;
+	t_rgb			color;
 }					t_cylinder;
 
 typedef	struct		s_inter
 {
+	t_vector		dist;
+	t_vector		vec;
 	double			a;
 	double			b;
 	double			c;
@@ -122,8 +134,8 @@ typedef	struct		s_inter
 	double			t2;
 	double			dist1;
 	double			dist2;
-	t_vector		dist;
-	t_vector		vec;
+	int8_t			flag_cone;
+
 }					t_inter;
 
 typedef	struct		s_color
@@ -137,13 +149,12 @@ typedef	struct		s_cam
 	t_vector		pos;
 	t_vector		direct;
 	t_vector		vector;
-	int32_t			len_ray;
 }					t_cam;
 
 typedef	struct		s_sdl
 {
-	SDL_Window		*win;
 	SDL_Surface		*win_surf;
+	SDL_Window		*win;
 	SDL_Event		event;
 }					t_sdl;
 
@@ -151,32 +162,52 @@ typedef	struct		s_figure
 {
 	enum e_figure	figure;
 	size_t			figure_id;
-	t_rgb			*color;
+	size_t			size;
 	void			*figure_data;
 	struct s_figure	*next;
 }					t_figure;
 
 typedef	struct		s_light
 {
-	t_rgb			color;
 	t_vector		pos;
 	double			intense;
+	uint8_t			type;
+	t_rgb			color;
 	struct s_light	*next;
 }					t_light;
 
+typedef	struct		s_light_stack
+{
+	t_vector		pos;
+	double			intense;
+	uint8_t			type;
+	t_rgb			color;
+}					t_light_stack;
+
+typedef	struct		s_figure_stack
+{
+	enum e_figure	figure;
+	size_t			figure_id;
+	void			*figure_data;
+}					t_figure_stack;
+
 typedef	struct		s_ray
 {
-	float_t			u;
-	float_t			v;
-	int32_t			x;
-	int32_t			y;
-	double			t1;
-	double			t2;
+	t_vector		cam_pos;
 	t_vector		point;
 	t_vector		normal;
-	t_rgb			color;
 	t_vector		ray;
+	double			t1;
+	double			t2;
+	double			m1;
+	double			k;
+	float_t			u;
+	float_t			v;
 	float_t			res;
+	uint16_t		x;
+	uint16_t		y;
+	t_rgb			color;
+	t_calc_light	*light;
 }					t_ray;
 
 typedef	struct		s_all_fig
@@ -187,13 +218,6 @@ typedef	struct		s_all_fig
 	t_plane			*plane;
 }					t_all_fig;
 
-typedef	struct		s_data_ray
-{
-	t_vector		horizontal;
-	t_vector		vertical;
-	t_vector		left_corner;
-}					t_data_ray;
-
 typedef	struct		s_buffer
 {
 	double			distanse;
@@ -203,20 +227,35 @@ typedef	struct		s_buffer
 typedef	struct		s_rtv1
 {
 	t_cam			camera;
-	t_data_ray		data;
-	t_figure		*figure;
-	t_light			*light;
 	t_sdl			sdl;
 	size_t			num_figure;
-	t_buffer		*buffer;
+	size_t			num_light;
 	size_t			size;
+	t_figure		*figure;
+	t_light			*light;
+	t_buffer		*buffer;
 }					t_rtv1;
+
+typedef	struct		s_thread
+{
+	t_cam			*cam;
+	t_figure_stack	*figure;
+	t_light_stack	*light;
+	t_rtv1			*rt;
+	t_ray			*ray;
+	t_sdl			sdl;
+	int32_t			y;
+	int32_t			y_end;
+	int8_t			n_thr;
+}					t_thread;
+
+void				ft_mem_th_data_stack(t_rtv1 *rt, int8_t i);
 
 void				ft_sdl_init(t_rtv1 *rt);
 
 void				ft_init(t_rtv1 *rt);
 
-void				ft_sdlloop(t_rtv1 *rt);
+void				ft_sdlloop(t_rtv1 *rt, t_thread *thread);
 
 void				ft_key(t_rtv1 *rt, int8_t *run);
 
@@ -256,8 +295,7 @@ void				ft_start_rt(t_rtv1 *rt);
 
 void				ft_init(t_rtv1 *rt);
 
-t_calc_light		*ft_inter_sphere(t_sphere *sphere, t_rtv1 *rt,
-					t_ray *r);
+int32_t				ft_inter_sphere(t_rtv1 *rt, t_ray *ray, t_sphere *plane);
 
 t_figure			*ft_lst_fig_new(t_all_fig *sv, size_t id);
 
@@ -271,14 +309,26 @@ t_rgb				ft_get_color(t_ray *ray, t_rtv1 *rt, t_rgb *figure);
 
 double				ft_vec_len(t_vector	vec1, t_vector vec2);
 
-void				ft_light(t_light *light, t_ray *ray, t_calc_light *calc, t_rtv1 *rt);
+void				ft_light(t_light *light, t_ray *ray, t_rtv1 *rt);
 
-t_calc_light		*ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane);
+int32_t				ft_inter_plane(t_rtv1 *rt, t_ray *ray, t_plane *plane);
 
 void				ft_draw(t_rtv1 *rt, int32_t x, int32_t y);
 
-t_calc_light		*ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cyl);
+int32_t				ft_inter_cylinder(t_rtv1 *rt, t_ray *ray, t_cylinder *cyl);
 
-t_calc_light		*ft_inter_cone(t_rtv1 *rt, t_ray *ray, t_cone *cone);
+int32_t				ft_inter_cone(t_rtv1 *rt, t_ray *ray, t_cone *cone);
+
+int32_t				ft_calc_sphere(t_sphere *sphere, t_rtv1 *rt, t_ray *ray);
+
+int32_t				ft_calc_plane(t_plane *plane, t_rtv1 *rt, t_ray *ray);
+
+int32_t				ft_calc_cone(t_cone *cone, t_rtv1 *rt, t_ray *ray);
+
+int32_t				ft_calc_cylinder(t_cylinder *cylinder, t_rtv1 *rt, t_ray *ray);
+
+void				ft_start_rt_thread(t_rtv1 *r, t_thread *thread);
+
+void				ft_new_render(t_rtv1 *rt);
 
 #endif

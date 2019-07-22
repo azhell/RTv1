@@ -20,10 +20,10 @@ void	ft_draw(t_rtv1 *rt, int32_t x, int32_t y)
 	t_rgb		color;
 
 	count = 0;
-	color = (t_rgb) {255, 255, 255};
+	color = (t_rgb) {20, 20, 20};
 	flag = 0;
 	buf_min.distanse = 10000.0;
-	while (count < rt->num_figure)
+	while (count < rt->num_figure && rt->buffer != NULL)
 	{
 		if (rt->buffer[count].distanse != -1.0)
 		{
