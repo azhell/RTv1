@@ -34,19 +34,20 @@ void	ft_init_th_figure(t_rtv1 *rt, t_thread *thread)
 	int32_t		count;
 	t_figure	*figure;
 	t_sphere	*sph;
+	void		*data;
 
-	figure = rt->figure;
 	i = 0;
-	count = 0;
 	while (i < THREAD)
 	{
+		count = 0;
+		figure = rt->figure;
 		while (count < rt->num_figure)
 		{
-			printf(" Id_X %u\n", figure->figure);
-			thread->figure[i].figure = figure->figure;
-			printf(" Id_Y  %u\n", 	thread->figure[i].figure);
-			thread->figure[i].figure_id = figure->figure_id;
-			ft_memcpy(&thread->figure[i].figure_data, figure->figure_data, figure->size);
+			thread[i].figure[count].figure = figure->figure;
+			thread[i].figure[count].figure_id = figure->figure_id;
+			data = ft_memalloc(figure->size);
+			thread[i].figure[count].figure_data =
+			ft_memcpy(data, figure->figure_data, figure->size);
 			figure = figure->next;
 			count++;
 		}
@@ -58,19 +59,23 @@ void	ft_init_th_light(t_rtv1 *rt, t_thread *thread)
 {
 	uint8_t		i;
 	uint8_t		count;
-	t_light	*light;
+	t_light		*light;
+	t_light_stack	tmp;
 
-	light = rt->light;
+
 	i = 0;
-	count = 0;
 	while (i < THREAD)
 	{
+		count = 0;
+		light = rt->light;
 		while (count < rt->num_light)
 		{
-			thread->light[i].pos = light->pos;
-			thread->light[i].intense = light->intense;
-			thread->light[i].type = light->type;
-			thread->light[i].color = light->color;
+
+			thread[i].light[count] = *(t_light_stack*)
+			ft_memcpy(&thread[i].light[count], light, sizeof(t_light_stack));
+			// thread[i].light[count].intense = light->intense;
+			// thread[i].light[count].type = light->type;
+			// thread[i].light[count].color = light->color;
 			light = light->next;
 			count++;
 		}
@@ -105,6 +110,7 @@ void	ft_mem_th_data_stack(t_rtv1 *rt, int8_t i)
 	t_light_stack		light[THREAD][rt->num_light];
 	t_figure_stack		figure[THREAD][rt->num_figure];
 	t_cam				cam[THREAD];
+	int32_t				count;
 
 	i = -1;
 	while (++i < THREAD)
@@ -119,6 +125,18 @@ void	ft_mem_th_data_stack(t_rtv1 *rt, int8_t i)
 	ft_init_th_cam(rt, thread);
 	ft_init_th_figure(rt, thread);
 	ft_init_th_light(rt, thread);
-	//printf("%f \n", thread[0].light[0].pos[]);
 	ft_sdlloop(rt, thread);
+
+	i = 0;
+	//clear leaks
+	while (i < THREAD)
+	{
+		count = 0;
+		while (count < rt->num_figure)
+		{
+			free(thread[i].figure[count].figure_data);
+			count++;
+		}
+	i++;
+	}
 }

@@ -12,32 +12,34 @@
 
 #include "rtv1.h"
 
-int32_t	ft_calc_figure(t_figure_stack *figure, t_thread *rt, t_ray *ray, int32_t num)
+int32_t	ft_calc_figure(t_figure_stack *figure, t_thread *rt, t_ray *ray)
 {
-	printf("%u | ", figure->figure);
-
 	if (figure->figure == sphere)
-		if (ft_calc_sphere((t_sphere*)&figure->figure_data, rt, ray))
+		if (ft_calc_sphere((t_sphere*)figure->figure_data, rt, ray))
 		{
+			ray->color = ((t_sphere*)(figure->figure_data))->color;
 			ft_light(rt->light, ray, rt);
 			return (1);
 		}
-	// if (figure->figure == plane)
-	// 	if (ft_calc_plane((t_plane*)&figure->figure_data, rt, ray))
-	// 	{
-	// 		ft_light(rt->light, ray, rt);
-	// 		return (1);
-	// 	}
-	if (figure->figure == cylinder)
-		if (ft_calc_cylinder((t_cylinder*)&figure->figure_data, rt, ray))
+	if (figure->figure == plane)
+		if (ft_calc_plane((t_plane*)figure->figure_data, rt, ray))
 		{
-		//	ft_light(rt->light, ray, rt);
+			ray->color = ((t_sphere*)(figure->figure_data))->color;
+			ft_light(rt->light, ray, rt);
+			return (1);
+		}
+	if (figure->figure == cylinder)
+		if (ft_calc_cylinder((t_cylinder*)figure->figure_data, rt, ray))
+		{
+			ray->color = ((t_sphere*)(figure->figure_data))->color;
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
 	if (figure->figure == cone)
-		if (ft_calc_cone((t_cone*)&figure->figure_data, rt, ray))
+		if (ft_calc_cone((t_cone*)figure->figure_data, rt, ray))
 		{
-		//	ft_light(rt->light, ray, rt);
+			ray->color = ((t_sphere*)(figure->figure_data))->color;
+			ft_light(rt->light, ray, rt);
 			return (1);
 		}
 	return (0);
@@ -76,7 +78,7 @@ void	ft_solve_ray(t_thread *rt, t_ray *ray)
 	i = 0;
 	while (i < rt->num_figure)
 	{
-		res = ft_calc_figure(&rt->figure[i], rt, ray, i);
+		res = ft_calc_figure(&rt->figure[i], rt, ray);
 		if (res)
 		{
 			rt->buffer[count].distanse = ray->t1;
@@ -100,6 +102,7 @@ void	ft_start_rt_t(t_thread *rt)
 	ray.x = rt->y;
 	ray.cam_pos = rt->cam->pos;
 	ray.y = 0;
+	ADR(rt->light);
 	while (ray.y < HT)
 	{
 		ray.x = rt->y;

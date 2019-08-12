@@ -26,7 +26,7 @@
 
 # define WH 1370
 # define HT 900
-# define THREAD 1
+# define THREAD 6
 # define HALFWIDTH WIDTH / 2.0
 # define HALFHEIGHT HEIGHT / 2.0
 # define DIST (double)WIDTH * 1.3

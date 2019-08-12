@@ -42,15 +42,18 @@ void	ft_pars_light(char *str, t_rtv1 *rt)
 	char		*light;
 	int32_t		i;
 	t_light		*lig;
+	int32_t		count;
 
 	light = str;
 	i = 0;
+	count = 0;
 	while (light[i] != '\0')
 	{
 		if (light[i] >= 97 && light[i] <= 122)
 		{
 			if ((res = ft_strnstr(&light[i], "light", 7)))
 			{
+				count++;
 				lig = ft_pr_light(res);
 				if (lig != NULL)
 					ft_add_light_list(lig, rt);
@@ -58,4 +61,5 @@ void	ft_pars_light(char *str, t_rtv1 *rt)
 		}
 		i++;
 	}
+	rt->num_light = count;
 }

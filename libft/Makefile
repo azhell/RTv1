@@ -6,7 +6,7 @@
 #    By: yalytvyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/30 13:07:05 by yalytvyn          #+#    #+#              #
-#    Updated: 2018/11/26 13:38:50 by yalytvyn         ###   ########.fr        #
+#    Updated: 2019/08/12 16:22:11 by yalytvyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRCO = *.o
 
 
 $(NAME):
-	@gcc -c -I$(INC) $(FLAG) $(SRC)
+	@gcc -c -g -I$(INC) $(FLAG) $(SRC)
 	@ar rc $(NAME) $(SRCO)
 all: $(NAME)
 

@@ -1,0 +1,55 @@
+cam
+{
+	pos: 0, 0, 0;
+	direct: 10,10,0;
+}
+
+light
+{
+	pos: 20, 10, 10;
+	color: 0, 0, 0;
+	intense: 1;
+}
+obj
+{
+	plane
+	{
+		pos: 25, 25, -5;
+		color: 250, 0, 250;
+		normal: 0, 0, 1;
+	}
+	plane
+	{
+		pos: 25, 25, 5;
+		color: 0, 250, 0;
+		normal: 0, 0, 0;
+	}
+	sphere
+	{
+		pos: 44, 42, 11;
+		color: 35, 240, 96;
+		radius: 4;
+	}
+	sphere
+	{
+		pos: 30, 40, -1;
+		color: 40, 95, 230;
+		radius: 4;
+	}
+	cylinder
+	{
+		pos: 29, 38, 1;
+		color: 100, 0, 244;
+		rot: 0.5, 0.5, 1;
+		size: 5;
+		radius: 3;
+	}
+	cylinder
+	{
+		pos: 20, 10, -4;
+		color: 100, 0, 244;
+		rot: -1, 0, 0;
+		size: 6;
+		radius: 2;
+	}
+}

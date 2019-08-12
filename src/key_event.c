@@ -19,7 +19,6 @@ void	ft_exit(t_rtv1 *rt, int8_t *run)
 		*run = 0;
 }
 
-
 void	ft_move_cam(t_rtv1 *rt)
 {
 	if (rt->sdl.event.type == SDL_KEYUP && rt->sdl.event.key.keysym.sym == SDLK_UP)
