@@ -48,7 +48,7 @@ int32_t	ft_inter_plane(t_ray *ray, t_plane *plane)
 int32_t	ft_inter_cap(t_ray *ray, t_plane *plane)
 {
 	t_inter		inter;
-	static	t_calc_light	calc_rgb;
+	t_calc_light	calc_rgb;
 	double		result;
 
 	inter.a = ft_vec_scalar(plane->normal, plane->pos);
@@ -85,7 +85,7 @@ int32_t		ft_check_cap(t_ray *ray, void *fig, t_inter *inter)
 			return (ft_inter_cap(ray, &plane));
 		}
 	}
-	else 
+	else
 	{
 		if (inter->m1 < 0.0 || inter->m2 > cone->size)
 			return (0);
@@ -99,7 +99,6 @@ int32_t		ft_check_cap(t_ray *ray, void *fig, t_inter *inter)
 	}
 	return (1);
 }
-
 
 int32_t	ft_inter_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
@@ -134,7 +133,6 @@ int32_t	ft_inter_cylinder(t_ray *ray, t_cylinder *cylinder)
 	ray->t1 = inter.t1;
 	return (1);
 }
-
 
 int32_t		ft_inter_cone(t_ray *ray, t_cone *cone)
 {

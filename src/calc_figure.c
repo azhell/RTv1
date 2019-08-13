@@ -14,7 +14,7 @@
 
 int32_t	ft_calc_sphere(t_sphere *sphere, t_thread *rt, t_ray *ray)
 {
-	static	t_calc_light	calc_rgb;
+	t_calc_light	calc_rgb;
 
 	ray->color = sphere->color;
 	if (ft_inter_sphere(ray, sphere))
@@ -33,10 +33,9 @@ int32_t	ft_calc_sphere(t_sphere *sphere, t_thread *rt, t_ray *ray)
 	return (0);
 }
 
-
 int32_t	ft_calc_plane(t_plane *plane, t_thread *rt, t_ray *ray)
 {
-	static	t_calc_light	calc_rgb;
+	t_calc_light	calc_rgb;
 
 	ray->color = plane->color;
 	if (ft_inter_plane(ray, plane))
@@ -54,10 +53,9 @@ int32_t	ft_calc_plane(t_plane *plane, t_thread *rt, t_ray *ray)
 	return (0);
 }
 
-
 int32_t	ft_calc_cone(t_cone *cone, t_thread *rt, t_ray *ray)
 {
-	static	t_calc_light	calc_rgb;
+	t_calc_light	calc_rgb;
 	int8_t	ret;
 	double	d;
 
@@ -87,7 +85,7 @@ int32_t	ft_calc_cone(t_cone *cone, t_thread *rt, t_ray *ray)
 
 int32_t	ft_calc_cylinder(t_cylinder *cylinder, t_thread *rt, t_ray *ray)
 {
-	static	t_calc_light	calc_rgb;
+	t_calc_light	calc_rgb;
 	int8_t	ret;
 
 	ray->color = cylinder->color;
@@ -96,7 +94,7 @@ int32_t	ft_calc_cylinder(t_cylinder *cylinder, t_thread *rt, t_ray *ray)
 	{
 		calc_rgb.flag_plane = 0;
 		calc_rgb.point = rt->cam->pos + ft_vec_add_scale(ray->ray, ray->t1);
-		calc_rgb.normal = ft_vec_normalize(calc_rgb.point - (cylinder->pos )- cylinder->rot * ray->m1);
+		calc_rgb.normal = ft_vec_normalize(calc_rgb.point - cylinder->pos - cylinder->rot * ray->m1);
 		calc_rgb.ray_vec = ray->ray;
 		calc_rgb.id = cylinder->id;
 		calc_rgb.light_vec = ft_vec_normalize(rt->light->pos - calc_rgb.point);

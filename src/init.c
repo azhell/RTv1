@@ -21,6 +21,7 @@ void	ft_init_th_cam(t_rtv1 *rt, t_thread *thread)
 	{
 		thread[i].num_figure = rt->num_figure;
 		thread[i].num_light = rt->num_light;
+		// thread[i].cam = ft_memcpy(&thread[i].cam, &rt->camera, sizeof(t_cam));
 		thread[i].cam->pos = rt->camera.pos;
 		thread[i].cam->direct = rt->camera.direct;
 		thread[i].cam->vector = rt->camera.vector;
@@ -57,11 +58,10 @@ void	ft_init_th_figure(t_rtv1 *rt, t_thread *thread)
 
 void	ft_init_th_light(t_rtv1 *rt, t_thread *thread)
 {
-	uint8_t		i;
-	uint8_t		count;
-	t_light		*light;
+	uint8_t			i;
+	uint8_t			count;
+	t_light			*light;
 	t_light_stack	tmp;
-
 
 	i = 0;
 	while (i < THREAD)
@@ -112,7 +112,6 @@ void	ft_mem_th_data_stack(t_rtv1 *rt, int8_t i)
 	t_cam				cam[THREAD];
 	int32_t				count;
 
-	i = -1;
 	while (++i < THREAD)
 	{
 		thread[i].figure = figure[i];

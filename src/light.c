@@ -14,32 +14,33 @@
 
 int8_t	ft_shadows(t_thread *rt, t_shadow *sh)
 {
-	// t_figure	*fig;
-	// t_ray		ray;
+	t_figure_stack	*fig;
+	t_ray		ray;
+	int32_t		i;
 
-	// fig = rt->figure;
-	// ray.ray = *sh->vec;
-	// ray.cam_pos = *sh->pos;
-	// while (fig)
-	// {
-	// 	if (fig->figure == sphere && sh->id != fig->figure_id)
-	// 		if (ft_inter_sphere(rt, &ray, (t_sphere*)fig->figure_data))
-	// 		{
-	// 			return (1);
-	// 		}
-	// 	if (fig->figure == plane && sh->id != fig->figure_id)
-	// 		if (ft_inter_plane(rt, &ray, (t_plane*)fig->figure_data))
-	// 			return (1);
-
-	// 	if (fig->figure == cylinder && sh->id != fig->figure_id)
-	// 		if (ft_inter_cylinder(rt, &ray, (t_cylinder*)fig->figure_data))
-	// 			return (1);
-
-	// 	if (fig->figure == cone && sh->id != fig->figure_id)
-	// 		if (ft_inter_cone(rt, &ray, (t_cone*)fig->figure_data))
-	// 			return (1);
-	// 	fig = fig->next;
-	// }
+	fig = rt->figure;
+	i = 0;
+	ray.ray = *sh->vec;
+	ray.cam_pos = *sh->pos;
+	while (i < rt->num_figure)
+	{
+		if (sh->id != fig[i].figure_id)
+		{
+			if (fig[i].figure == sphere)
+				if (ft_inter_sphere(&ray, (t_sphere*)fig[i].figure_data))
+					return (1);
+			if (fig[i].figure == plane)
+				if (ft_inter_plane(&ray, (t_plane*)fig[i].figure_data))
+					return (1);
+			if (fig[i].figure == cylinder)
+				if (ft_inter_cylinder(&ray, (t_cylinder*)fig[i].figure_data))
+					return (1);
+			if (fig[i].figure == cone)
+				if (ft_inter_cone(&ray, (t_cone*)fig[i].figure_data))
+					return (1);
+		}
+		i++;
+	}
 	return (0);
 }
 
@@ -59,24 +60,16 @@ void	ft_light(t_light_stack *light, t_ray *ray, t_thread *rt)
 	vec_light = ft_vec_normalize(ray->light->point - light[0].pos);
 	angle_lht = ft_vec_scalar(vec_light, -ray->light->normal);
 	angle_cam = ft_vec_scalar(ray->ray, ray->light->normal);
-//	printf("%f %f || ", angle_lht, angle_cam);
 	if (ray->light->flag_plane == 1)
 		angle_lht = fabs(angle_lht);
 	len_N = ft_vec_len(ray->light->point, light[0].pos);
 	len_R = ft_vec_len(rt->cam->pos, ray->light->point);
-	// fix color after
-	//printf("%f %f ", len_R, len_N);
 	shadow.vec = &vec;
 	shadow.pos = &ray->light->point;
 	shadow.id = ray->light->id;
 	shadow.len = len_N;
-	//res = 0;
-	//if (angle_lht > 0.0)
 	{
-	//	int32_t res = ft_shadows(rt, &shadow);
-		int32_t	res = 0;
-	//	color_i -= 1.0 - angle_lht;
-	//	color_i -= DAMPING * len_N;
+		int32_t res = ft_shadows(rt, &shadow);
 		if (!res && angle_lht > 0)
 			color_i += rt->light[0].intense * angle_lht / (len_N * len_R / 900);
 		if (color_i > 1.0)
@@ -86,11 +79,5 @@ void	ft_light(t_light_stack *light, t_ray *ray, t_thread *rt)
 		ray->color.r = ray->color.r * color_i;
 		ray->color.g = ray->color.g * color_i;
 		ray->color.b = ray->color.b * color_i;
-		// if ((fabs(angle_cam) - fabs(angle_lht)) < 0.01)
-		// {
-		// 	ray->color.r = 14;
-		// 	ray->color.g = 23;
-		// 	ray->color.b = 24;
-		// }
 	}
 }

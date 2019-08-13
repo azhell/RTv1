@@ -16,32 +16,16 @@ int32_t	ft_calc_figure(t_figure_stack *figure, t_thread *rt, t_ray *ray)
 {
 	if (figure->figure == sphere)
 		if (ft_calc_sphere((t_sphere*)figure->figure_data, rt, ray))
-		{
-			ray->color = ((t_sphere*)(figure->figure_data))->color;
-			ft_light(rt->light, ray, rt);
 			return (1);
-		}
 	if (figure->figure == plane)
 		if (ft_calc_plane((t_plane*)figure->figure_data, rt, ray))
-		{
-			ray->color = ((t_sphere*)(figure->figure_data))->color;
-			ft_light(rt->light, ray, rt);
 			return (1);
-		}
 	if (figure->figure == cylinder)
 		if (ft_calc_cylinder((t_cylinder*)figure->figure_data, rt, ray))
-		{
-			ray->color = ((t_sphere*)(figure->figure_data))->color;
-			ft_light(rt->light, ray, rt);
 			return (1);
-		}
 	if (figure->figure == cone)
 		if (ft_calc_cone((t_cone*)figure->figure_data, rt, ray))
-		{
-			ray->color = ((t_sphere*)(figure->figure_data))->color;
-			ft_light(rt->light, ray, rt);
 			return (1);
-		}
 	return (0);
 }
 
@@ -102,7 +86,6 @@ void	ft_start_rt_t(t_thread *rt)
 	ray.x = rt->y;
 	ray.cam_pos = rt->cam->pos;
 	ray.y = 0;
-	ADR(rt->light);
 	while (ray.y < HT)
 	{
 		ray.x = rt->y;
@@ -138,7 +121,6 @@ void	ft_start_rt_thread(t_rtv1 *rt, t_thread *thread)
 
 	rt_start = ft_start_rt_t;
 	count = -1;
-	thread->rt = rt;
 	while (++count < THREAD)
 	{
 		thread[count].n_thr = count;
